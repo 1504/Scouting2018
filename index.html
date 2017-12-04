@@ -226,7 +226,7 @@
             <btn block size="lg" @click="submit">SUBMIT</btn>
         </cell>
         <cell id="scanner"></cell>
-        <cell id="scannedTextMemo"></cell>
+        <p id="scannedTextMemo"></p>
         <group v-show="showQR">
             <div id="qr"></div>
         </group>
@@ -248,7 +248,7 @@ function createQR(data) {
         // size in pixels
         size: 650,
         ratio: null,
-        text: pako.deflate(data, { to: 'string' }), //actual value
+        text: data, //actual value
         rounded: 100,
     });
     el.id = "qr"
@@ -268,9 +268,10 @@ if ('addEventListener' in document) {
 </script>
 <script>
 function onQRCodeScanned(scannedText) {
+    console.log(scannedText)
     var scannedTextMemo = document.getElementById("scannedTextMemo");
     if (scannedTextMemo) {
-        scannedTextMemo.value = pako.deflate(scannedText, { to: 'string' });
+        scannedTextMemo.value = scannedText;
     }
 }
 
