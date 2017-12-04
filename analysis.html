@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Scouting Analysis</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <script src="lib/vue.js"></script>
+    <script src="lib/semantic.min.js"></script>
+    <script src="lib/vue-resource.min.js"></script>
+    <script src="lib/lodash.min.js"></script>
+    <script src="lib/stats.js"></script>
+    <script src="lib/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="css/semantic.min.css">
+    <link rel="stylesheet" href="css/sweetalert2.min.css">
+    <script>
+    // quantile = ss.quantile(list, 0.5);
+    </script>
+    <style>
+    .g {
+        color: green;
+    }
+    
+    .r {
+        color: red;
+    }
+    
+    .big {
+        font-size: 1.1em;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="ui container">
+        <div class="ui huge header" style="margin-top:1em">Scouting Analysis</div>
+        <div class="ui action input">
+            <input type="text" placeholder="Team Number" v-model="team">
+            <button class="ui button" @click="submit">Add</button>
+        </div>
+        <div class="ui divider"></div>
+        <div class="ui cards grid three column grid stackable">
+            <div class="card column" v-for="team in data">
+                <div class="content">
+                    <div class="header">
+                        {{team.number}}
+                    </div>
+                    <div class="meta">
+                        Matches {{_.sortBy(team.matches)}}
+                    </div>
+                    <div class="description">
+                        <b class="big">Summary</b>
+                        <div class="ui">
+                            <div v-if="(team.telophigh == 0) && (team.teloplow == 0)">
+                                <b>They don't shoot in teleop</b>
+                            </div>
+                            <div v-else>
+                                <div>Telop High Goal Accuracy: <b>{{team.telophigh}}%</b></div>
+                                <div>Telop Low Goal Accuracy: <b>{{team.teloplow}}%</b></div>
+                            </div>
+                            <div v-if="(team.autonhigh == 0) && (team.autonlow == 0)">
+                                <b>They don't shoot in auton</b>
+                            </div>
+                            <div v-else>
+                                <div>Auton High Goal Accuracy: <b>{{team.autonhigh}}%</b></div>
+                                <div>Auton Low Goal Accuracy: <b>{{team.autonlow}}%</b></div>
+                            </div>
+                            <div>Gears Placed - Avg: <b>{{_.round(_.mean(team.gearsplaced), 3)}}</b> &nbsp; 1st Quartile: <b>{{_.round(ss.quantile(team.gearsplaced, .25), 3)}}</b> &nbsp; Median: <b>{{_.round(ss.quantile(team.gearsplaced, .5), 3)}}</b> &nbsp; 3rd Quartile: <b>{{_.round(ss.quantile(team.gearsplaced, .75), 3)}}</b> &nbsp; Min: <b>{{_.round(ss.min(team.gearsplaced, .25), 3)}}</b> &nbsp; Max: <b>{{_.round(ss.max(team.gearsplaced, .25), 3)}}</b>
+                            </div>
+                            <div>Avg Gears Failed: <b>{{team.gearsfailed}}</b></div>
+                            <!--<div>Avg Gear Cycle Time: <b>{{team.cycletime}} seconds</b></div>-->
+                        </div>
+                    </div>
+                    <br>
+                    <div class="description">
+                        <b class="big">Robot Info</b>
+                        <div class="ui">
+                            <div>Drive Type: <b>{{team.drivetype}} wheels</b></div>
+                            <div>Clean Matches:
+                                <matches :d="team.fouls"></matches>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="description">
+                        <b class="big">Auton</b>
+                        <div class="ui">
+                            <div v-if="(team.autonhigh == 0) && (team.autonlow == 0)">
+                                <b>They don't shoot in auton</b>
+                            </div>
+                            <div v-else>
+                                <div>High Goal Accuracy: <b>{{team.autonhigh}}%</b></div>
+                                <div>Low Goal Accuracy: <b>{{team.autonlow}}%</b></div>
+                            </div>
+                            <div>Moved:
+                                <matches :d="team.moved"></matches>
+                            </div>
+                            <div>Crossed:
+                                <matches :d="team.crossed"></matches>
+                            </div>
+                            <div>Started with Gears:
+                                <matches :d="team.startgears"></matches>
+                            </div>
+                            <div>Placed Gears:
+                                <matches :d="team.placegears"></matches>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="description">
+                        <b class="big">Telop</b>
+                        <div v-if="(team.telophigh == 0) && (team.teloplow == 0)">
+                            <b>They don't shoot in telop</b>
+                        </div>
+                        <div v-else>
+                            <div>High Goal Accuracy: <b>{{team.telophigh}}%</b></div>
+                            <div>Low Goal Accuracy: <b>{{team.teloplow}}%</b></div>
+                        </div>
+                        <div>Defensive:
+                            <matches :d="team.defensive"></matches>
+                        </div>
+                        <!--<div>Gear Collection: <b>Ground: 45 (4 avg) | Station: 67 (5 avg)</b></div>-->
+                        <!--<div>Avg Gear Cycle Time: <b>{{team.cycletime}} seconds</b></div>-->
+                        <div>Avg Gears Placed: <b>{{_.round(_.mean(team.gearsplaced), 3)}}</b></div>
+                        <div>Avg Gears Failed: <b>{{team.gearsfailed}}</b></div>
+                        <div>Gear Stuck on Peg:
+                            <matches :d="team.stuck"></matches>
+                        </div>
+                        <div>Hanging:
+                            <matches :d="team.hanging"></matches>
+                        </div>
+                        <div>Avg Time to Hang: <b>{{team.hangtime}} seconds</b></div>
+                        <!--<div>Driver Quality: <b>73%</b></div>-->
+                    </div>
+                    <br>
+                    <div class="description">
+                        <b class="big">Additional Comments</b>
+                        <div v-for="(comment, i) in team.comments.text" v-if="comment">Match {{team.comments.match[i]}}: {{comment}} - {{team.comments.names[i]}}</div>
+                    </div>
+                </div>
+                <div class="extra content">
+                    <div class="ui two buttons">
+                        <div class="ui basic green button" @click="openRaw(team.raw, team.number)">View Raw</div>
+                        <div class="ui basic red button">Remove</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <template id="match">
+        <span>
+            [<span v-for="m in _.sortBy(d, ['match'])">
+                <b v-bind:class="m.c">{{m.match}}</b>, 
+            </span>]
+        </span>
+    </template>
+</body>
+<script src="analysis.js"></script>
+
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Scouting 2018</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="css/vue-impression.css">
+    <script src="lib/vue.js"></script>
+    <script src="lib/vue-impression.js"></script>
+    <script src="lib/store2.min.js"></script>
+    <script src="lib/vue-resource.min.js"></script>
+    <script src="lib/fastclick.js"></script>
+    <link rel="stylesheet" href="css/fontawesome.css">
+    <style>
+    .input-text-input,
+    .input-number-input {
+        font-size: 100%;
+    }
+    </style>
+</head>
+
+<body style="font-size: 120%">
+    <div id="app">
+        <!-- MENU START -->
+        <sidelip v-model="menu" class="text-center">
+            <group-title class="bg-primary" :style="{height: '8rem', padding: '2rem 1rem'}">
+                <h2>Scouting 2018</h2>
+                <h4>Made by Ajusa</h4>
+            </group-title>
+            <cell>
+                Number of forms: {{data.length}}
+            </cell>
+            <cell>
+                <btn theme="default" block @click="viewData = true">VIEW DATA</btn>
+            </cell>
+            <cell>
+                <input-text v-model="s.name" placeholder="Name" type="text" />
+            </cell>
+            <cell>
+                <btn block @click="saveSettings">SAVE SETTINGS</btn>
+            </cell>
+            <cell>
+                <input-text v-model="s.password" placeholder="Password" type="password" />
+            </cell>
+            <group v-show="s.password == auth">
+                <cell>
+                    <btn theme="secondary" block @click="clear">CLEAR DATA</btn>
+                </cell>
+            </group>
+        </sidelip>
+        <slideup v-model="viewData">
+            <slideup-header>
+                <b>Data Stored on Device</b>
+            </slideup-header>
+            <cell v-for="d in data">
+                Team: {{d.team}}
+                <br> Match: {{d.match}}
+            </cell>
+        </slideup>
+        <navbar>
+            <icon name="navicon" size="lg" @click="menu = true"></icon>
+            <h4 slot="body">Scouting 2018</h4>
+        </navbar>
+        <div class="group-title">Info</div>
+        <group>
+            <cell>
+                <input-text v-model="d.match" placeholder="Match Number" type="number" />
+            </cell>
+            <cell>
+                <input-text v-model="d.team" placeholder="Team Number" type="number" />
+            </cell>
+            <cell>
+                <inline-selector v-model="d.color">
+                    Alliance: &nbsp;
+                    <inline-selector-option value="red"><span class="blue">Blue</span></inline-selector-option>
+                    <inline-selector-option value="blue"><span class="red">Red</span></inline-selector-option>
+                </inline-selector>
+            </cell>
+            <cell>
+                <inline-selector v-model="d.drive">
+                    Drive: &nbsp;
+                    <inline-selector-option value="mechanum">Mech</inline-selector-option>
+                    <inline-selector-option value="tank">Tank</inline-selector-option>
+                    <inline-selector-option value="omni">Omni</inline-selector-option>
+                    <inline-selector-option value="unknown">?</inline-selector-option>
+                </inline-selector>
+                <br>
+                <inline-selector v-model="d.wheels">
+                    Wheels: &nbsp;
+                    <inline-selector-option value="4">4</inline-selector-option>
+                    <inline-selector-option value="6">6</inline-selector-option>
+                    <inline-selector-option value="8">8</inline-selector-option>
+                    <inline-selector-option value="unknown">?</inline-selector-option>
+                </inline-selector>
+            </cell>
+            <cell>
+                <checkbox v-model="d.foul">Does it Foul</checkbox>
+            </cell>
+        </group>
+        <group-title>Auton</group-title>
+        <group>
+            <cell>
+                <inline-selector v-model="d.autonmovement">
+                    Movement: &nbsp;
+                    <inline-selector-option value="moves">Moves</inline-selector-option>
+                    <inline-selector-option value="cross">Crosses Line</inline-selector-option>
+                </inline-selector>
+            </cell>
+            <cell>
+                <inline-selector v-model="d.autongears" multiple>
+                    Gears: &nbsp;
+                    <inline-selector-option value="starts">Starts</inline-selector-option>
+                    <inline-selector-option value="places">Places</inline-selector-option>
+                </inline-selector>
+            </cell>
+            <cell>
+                <inline-selector v-model="d.autonballs" multiple>
+                    Balls: &nbsp;
+                    <inline-selector-option value="starts">Starts</inline-selector-option>
+                    <inline-selector-option value="low">Low</inline-selector-option>
+                    <inline-selector-option value="high">High</inline-selector-option>
+                </inline-selector>
+            </cell>
+            <cell>
+                High Goal Accuracy (%) &nbsp;
+                <input-number :min="0" v-model="d.autonhighaccu" :step="25" :max="100"></input-number>
+            </cell>
+            <cell>
+                Low Goal Accuracy (%) &nbsp;
+                <input-number :min="0" v-model="d.autonlowaccu" :step="25" :max="100"></input-number>
+            </cell>
+        </group>
+        <group-title>Teleop</group-title>
+        <group>
+            <cell>
+                <checkbox v-model="d.telopdefense">Defensive</checkbox>
+            </cell>
+            <cell>
+                <inline-selector v-model="d.telopgears" multiple>
+                    Gear Collection: &nbsp;
+                    <inline-selector-option value="loadingstation">Station</inline-selector-option>
+                    <inline-selector-option value="floor">Floor</inline-selector-option>
+                </inline-selector>
+                <br>
+                <inline-selector v-model="d.telopgearwhere" multiple>
+                    Gear Placing: &nbsp;
+                    <inline-selector-option value="loadingstation">Side Peg</inline-selector-option>
+                    <inline-selector-option value="floor">Center Peg</inline-selector-option>
+                </inline-selector>
+            </cell>
+            <cell>
+                Gears Placed &nbsp;
+                <input-number :min="0" v-model="d.telopgearsplaced" :max="20" />
+            </cell>
+            <cell>
+                Gears Failed &nbsp;
+                <input-number :min="0" v-model="d.telopgearsfailed" />
+            </cell>
+            <cell>
+                <checkbox v-model="d.teloprobostuck">Stuck on Peg</checkbox>
+            </cell>
+            <cell>
+                <inline-selector v-model="d.telopballcollec" multiple>
+                    Ball Collection: &nbsp;
+                    <inline-selector-option value="loadingstation">Station</inline-selector-option>
+                    <inline-selector-option value="floor">Floor</inline-selector-option>
+                </inline-selector>
+                <br>
+                <inline-selector v-model="d.telopballscore" multiple>
+                    Ball Goal: &nbsp;
+                    <inline-selector-option value="low">Low</inline-selector-option>
+                    <inline-selector-option value="high">High</inline-selector-option>
+                </inline-selector>
+            </cell>
+            <cell>
+                High Goal Accuracy (%) &nbsp;
+                <input-number :min="0" v-model="d.telophighaccu" :step="25" :max="100" />
+            </cell>
+            <cell>
+                Low Goal Accuracy (%) &nbsp;
+                <input-number :min="0" v-model="d.teloplowaccu" :step="25" :max="100" />
+            </cell>
+        </group>
+        <group-title>End Game</group-title>
+        <group>
+            <cell>
+                <inline-selector v-model="d.telopballhang">
+                    Hang: &nbsp;
+                    <inline-selector-option value="attempt">Attempt</inline-selector-option>
+                    <inline-selector-option value="success">Success</inline-selector-option>
+                </inline-selector>
+            </cell>
+            <cell>
+                Time to Hang (s) &nbsp;
+                <input-number :min="0" v-model="d.telophangtime" :step="5" :max="30"></input-number>
+            </cell>
+        </group>
+        <group-title>Humans</group-title>
+        <group>
+            <cell>
+                <inline-selector v-model="d.driver">
+                    Driver: &nbsp;
+                    <inline-selector-option value="low">Trash</inline-selector-option>
+                    <inline-selector-option value="mid">Avg</inline-selector-option>
+                    <inline-selector-option value="high">God</inline-selector-option>
+                </inline-selector>
+            </cell>
+        </group>
+        <group>
+            <cell class="no-padding">
+                <input-textarea v-model="d.comments" placeholder="Additional Comments" />
+            </cell>
+        </group>
+        <cell>
+            <btn block size="lg" @click="submit">SUBMIT</btn>
+        </cell>
+        <!--<code>
+            {{JSON.stringify(data)}}
+        </code>-->
+    </div>
+</body>
+<script src="app.js">
+</script>
+<script>
+if ('addEventListener' in document) {
+    document.addEventListener('DOMContentLoaded', function() {
+        FastClick.attach(document.body);
+    }, false);
+}
+</script>
+
+</html>
