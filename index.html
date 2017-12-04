@@ -13,6 +13,7 @@
     <script src="lib/store2.min.js"></script>
     <script src="lib/vue-resource.min.js"></script>
     <script src="lib/fastclick.js"></script>
+    <script src="lib/kjua.min.js"></script>
     <link rel="stylesheet" href="css/fontawesome.css">
     <style>
     .input-text-input,
@@ -52,17 +53,22 @@
             </group>
         </sidelip>
         <slideup v-model="viewData">
-            <slideup-header>
-                <b>Data Stored on Device</b>
-            </slideup-header>
+            <navbar theme="default">
+                <h4 slot="body">Data on Device</h4>
+                <icon name="qrcode" size="lg" @click="viewData = true" slot="footer"></icon>
+            </navbar>
             <cell v-for="d in data">
-                Team: {{d.team}}
-                <br> Match: {{d.match}}
+                <label class="checkbox checkbox-square">
+                    <input type="checkbox" v-model="selectedData" class="checkbox-input" :value="d">
+                    <span class="checkbox-addon"><i class="fa fa-check"></i></span>
+                    <span class="checkbox-label">Team: {{d.team}}, Match: {{d.match}}</span>
+                </label>
             </cell>
         </slideup>
         <navbar>
             <icon name="navicon" size="lg" @click="menu = true"></icon>
             <h4 slot="body">Scouting 2018</h4>
+            <icon name="pencil-square-o" size="lg" @click="viewData = true" slot="footer"></icon>
         </navbar>
         <div class="group-title">Info</div>
         <group>
@@ -217,6 +223,9 @@
         <cell>
             <btn block size="lg" @click="submit">SUBMIT</btn>
         </cell>
+        <group>
+            <div id="qr"></div>
+        </group>
         <!--<code>
             {{JSON.stringify(data)}}
         </code>-->
@@ -225,6 +234,38 @@
 <script src="app.js">
 </script>
 <script>
+var el = kjua({
+    render: 'canvas',
+    crisp: true,
+    // error correction level: 'L', 'M', 'Q' or 'H'
+    ecLevel: 'L',
+
+    // size in pixel
+    size: 650,
+
+    ratio: null,
+    fill: '#333',
+    back: '#fff',
+    text: 'no texts', //actual value
+    rounded: 100,
+    quiet: 0,
+    mode: 'plain',
+    mSize: 30,
+    mPosX: 50,
+    mPosY: 50,
+    // label
+    label: 'no label',
+    fontname: 'sans',
+    fontcolor: '#333',
+    image: null
+});
+el.id = "qr"
+el.style["max-width"] = "100%"
+el.style["height"] = "auto"
+el.style.display = "block"
+el.style.margin = "0 auto"
+var toReplace = document.getElementById('qr');
+toReplace.parentNode.replaceChild(el, toReplace);
 if ('addEventListener' in document) {
     document.addEventListener('DOMContentLoaded', function() {
         FastClick.attach(document.body);

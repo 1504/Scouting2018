@@ -7,6 +7,7 @@ var app = new Vue({
         menu: false,
         viewData: false,
         s: {},
+        selectedData: [],
         auth: atob('Ymx1ZWJhYmllc2FyZXVuaGVhbHRoeQ==')
     },
     created: function() {
