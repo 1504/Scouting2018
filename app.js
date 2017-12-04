@@ -7,6 +7,7 @@ var app = new Vue({
         menu: false,
         viewData: false,
         s: {},
+        showQR: false,
         selectedData: [],
         auth: atob('Ymx1ZWJhYmllc2FyZXVuaGVhbHRoeQ==')
     },
@@ -37,7 +38,7 @@ var app = new Vue({
                 this.$alert({ message: 'Form Submitted', title: ':D', okText: 'Okay' });
             }), function() {
                 this.$loading.toggle();
-                this.$alert({ message: 'Form saved. There are now ' + this.data.length + ' forms saved', title: ':(', okText: 'Okay' });
+                this.$alert({ message: 'Form saved. There are now ' + this.data.length + ' forms saved', title: 'Could not Send', okText: 'Okay' });
             });
         },
         clear: function() {
@@ -48,6 +49,11 @@ var app = new Vue({
         saveSettings: function() {
             store('settings', this.s);
             this.$toast({ position: 'bottom', message: 'Saved' });
-        }
+        },
+        qr: function(data){
+            this.showQR = true;
+            createQR(JSON.stringify(data))
+            document.getElementById('qr').scrollIntoView();
+        },
     }
 });

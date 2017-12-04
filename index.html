@@ -14,6 +14,8 @@
     <script src="lib/vue-resource.min.js"></script>
     <script src="lib/fastclick.js"></script>
     <script src="lib/kjua.min.js"></script>
+    <script src="lib/pako.min.js"></script>
+    <script type="text/javascript" src="lib/qr/jsqrscanner.nocache.js"></script>
     <link rel="stylesheet" href="css/fontawesome.css">
     <style>
     .input-text-input,
@@ -55,7 +57,7 @@
         <slideup v-model="viewData">
             <navbar theme="default">
                 <h4 slot="body">Data on Device</h4>
-                <icon name="qrcode" size="lg" @click="viewData = true" slot="footer"></icon>
+                <icon name="qrcode" size="lg" @click="qr(selectedData)" slot="footer"></icon>
             </navbar>
             <cell v-for="d in data">
                 <label class="checkbox checkbox-square">
@@ -223,9 +225,12 @@
         <cell>
             <btn block size="lg" @click="submit">SUBMIT</btn>
         </cell>
-        <group>
+        <cell id="scanner"></cell>
+        <cell id="scannedTextMemo"></cell>
+        <group v-show="showQR">
             <div id="qr"></div>
         </group>
+        <br>
         <!--<code>
             {{JSON.stringify(data)}}
         </code>-->
@@ -234,42 +239,55 @@
 <script src="app.js">
 </script>
 <script>
-var el = kjua({
-    render: 'canvas',
-    crisp: true,
-    // error correction level: 'L', 'M', 'Q' or 'H'
-    ecLevel: 'L',
+function createQR(data) {
+    var el = kjua({
+        render: 'canvas',
+        crisp: true,
+        // error correction level: 'L', 'M', 'Q' or 'H'
+        ecLevel: 'L',
+        // size in pixels
+        size: 650,
+        ratio: null,
+        text: pako.deflate(data, { to: 'string' }), //actual value
+        rounded: 100,
+    });
+    el.id = "qr"
+    el.style["max-width"] = "100%"
+    el.style["height"] = "auto"
+    el.style.display = "block"
+    el.style.margin = "0 auto"
+    var toReplace = document.getElementById('qr');
+    toReplace.parentNode.replaceChild(el, toReplace);
+}
 
-    // size in pixel
-    size: 650,
-
-    ratio: null,
-    fill: '#333',
-    back: '#fff',
-    text: 'no texts', //actual value
-    rounded: 100,
-    quiet: 0,
-    mode: 'plain',
-    mSize: 30,
-    mPosX: 50,
-    mPosY: 50,
-    // label
-    label: 'no label',
-    fontname: 'sans',
-    fontcolor: '#333',
-    image: null
-});
-el.id = "qr"
-el.style["max-width"] = "100%"
-el.style["height"] = "auto"
-el.style.display = "block"
-el.style.margin = "0 auto"
-var toReplace = document.getElementById('qr');
-toReplace.parentNode.replaceChild(el, toReplace);
 if ('addEventListener' in document) {
     document.addEventListener('DOMContentLoaded', function() {
         FastClick.attach(document.body);
     }, false);
+}
+</script>
+<script>
+function onQRCodeScanned(scannedText) {
+    var scannedTextMemo = document.getElementById("scannedTextMemo");
+    if (scannedTextMemo) {
+        scannedTextMemo.value = pako.deflate(scannedText, { to: 'string' });
+    }
+}
+
+//this function will be called when JsQRScanner is ready to use
+function JsQRScannerReady() {
+    //create a new scanner passing to it a callback function that will be invoked when
+    //the scanner succesfully scan a QR code
+    var jbScanner = new JsQRScanner(onQRCodeScanned);
+    //reduce the size of analyzed images to increase performance on mobile devices
+    jbScanner.setSnapImageMaxSize(300);
+    var scannerParentElement = document.getElementById("scanner");
+    scannerParentElement.style.display = "block"
+    scannerParentElement.style.margin = "0 auto"
+    if (scannerParentElement) {
+        //append the jbScanner to an existing DOM element
+        jbScanner.appendTo(scannerParentElement);
+    }
 }
 </script>
 
