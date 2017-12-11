@@ -16,7 +16,7 @@ var app = new Vue({
         this.$http.get('/fields.json').then(function(resp) {
             self.d = resp.body
         }, function() {
-            alert("An error occured, please refresh the page")
+        
         });
         this["default"] = JSON.parse(JSON.stringify(this.d));
         this.data = store('data') || [];
