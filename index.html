@@ -267,9 +267,13 @@ if ('addEventListener' in document) {
 }
 </script>
 <script>
+    var lastScan = ""
 function onQRCodeScanned(scannedText) {
     console.log(scannedText)
-    var scannedTextMemo = document.getElementById("scannedTextMemo");
+    if(lastScan != scannedText){
+        lastScan = scannedText
+        app.decodeQR(lastScan)
+    }
     if (scannedTextMemo) {
         scannedTextMemo.value = scannedText;
     }

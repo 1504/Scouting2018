@@ -62,7 +62,6 @@ var app = new Vue({
                 }
             }
             createQR(str)
-            this.decodeQR(str)
             document.getElementById('qr').scrollIntoView();
         },
         decodeQR: function(str) {
@@ -80,6 +79,7 @@ var app = new Vue({
             }
         },
         onDecode: function(data) {
+
             console.log(data)
         }
     }
