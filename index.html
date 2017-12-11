@@ -59,6 +59,7 @@
                 <h4 slot="body">Data on Device</h4>
                 <icon name="qrcode" size="lg" @click="qr" slot="footer"></icon>
             </navbar>
+            <btn block theme="secondary" @click="deleteSelected()">Delete Selected Reports</btn>
             <cell v-for="(d,i) in data">
                 <label class="checkbox checkbox-square">
                     <input type="checkbox" v-model="selectedData" class="checkbox-input" :value="{data: d, _id: i}">
@@ -67,10 +68,7 @@
                 </label>
                 <icon name="trash" class="text-danger" size="lg" @click="remove(i)" slot="footer"></icon>
             </cell>
-            <hrule />
-            <cell>
-                <btn block size="lg" theme="secondary" @click="deleteSelected()">Delete Selected Reports</btn>
-            </cell>
+                
         </slideup>
         <navbar>
             <icon name="navicon" size="lg" @click="menu = true"></icon>
