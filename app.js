@@ -13,9 +13,9 @@ var app = new Vue({
     },
     created: function() {
         var self = this;
-        this.$http.get('/fields.json').then(function(resp){
+        this.$http.get('/fields.json').then(function(resp) {
             self.d = resp.body
-        }, function(){
+        }, function() {
             alert("An error occured, please refresh the page")
         });
         this["default"] = JSON.parse(JSON.stringify(this.d));
@@ -50,10 +50,37 @@ var app = new Vue({
             store('settings', this.s);
             this.$toast({ position: 'bottom', message: 'Saved' });
         },
-        qr: function(data){
+        qr: function(data) {
             this.showQR = true;
-            createQR(JSON.stringify(data))
+            var str = ""
+            for (var i = data.length - 1; i >= 0; i--) {
+                var arr = Object.keys(data[i]).map(function(k) { return data[i][k] });
+                if (i == 0) {
+                    str += arr.join("|")
+                } else {
+                    str += arr.join("|") + "\n"
+                }
+            }
+            createQR(str)
+            this.decodeQR(str)
             document.getElementById('qr').scrollIntoView();
         },
+        decodeQR: function(str) {
+            arr = str.split("\n");
+            for (var i = arr.length - 1; i >= 0; i--) {
+                var obj = {}
+                var report = arr[i].split("|")
+                var keys = Object.keys(this.d)
+                for (var i = report.length - 1; i >= 0; i--) {
+                    obj[keys[i]] = report[i]
+                }
+                this.data.push(obj);
+                store('data', this.data);
+                this.$toast({ position: 'bottom', message: 'Scouting Data added to Device' });
+            }
+        },
+        onDecode: function(data) {
+            console.log(data)
+        }
     }
 });
