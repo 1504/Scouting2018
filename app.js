@@ -44,12 +44,14 @@ var app = new Vue({
         remove: function(i) {
             this.data.splice(i,1)
             store('data', this.data);
+            this.$toast({ position: 'bottom', message: 'Deleted report' });
         },
         deleteSelected: function(){
             for (var i = this.selectedData.length - 1; i >= 0; i--) {
                 this.data.splice(this.selectedData[i]._id, 1)
             }
             store('data', this.data);
+            this.$toast({ position: 'bottom', message: 'Deleted reports' });
         },
         clear: function() {
             store(false);
