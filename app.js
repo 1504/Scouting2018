@@ -41,6 +41,16 @@ var app = new Vue({
                 this.$alert({ message: 'Form saved. There are now ' + this.data.length + ' forms saved', title: 'Could not Send', okText: 'Okay' });
             });
         },
+        remove: function(i) {
+            this.data.splice(i,1)
+            store('data', this.data);
+        },
+        deleteSelected: function(){
+            for (var i = this.selectedData.length - 1; i >= 0; i--) {
+                this.data.splice(this.selectedData[i]._id, 1)
+            }
+            store('data', this.data);
+        },
         clear: function() {
             store(false);
             this.data = [];
@@ -50,10 +60,14 @@ var app = new Vue({
             store('settings', this.s);
             this.$toast({ position: 'bottom', message: 'Saved' });
         },
-        qr: function(data) {
+        qr: function() {
+            var data = []
+            for (var i = this.selectedData.length - 1; i >= 0; i--) {
+                data.push(this.selectedData[i].data)
+            }
             this.showQR = true;
             var str = ""
-            for (var i = data.length - 1; i >= 0; i--) {
+            for (var i = 0; i < data.length; i++) {
                 var arr = Object.keys(data[i]).map(function(k) { return data[i][k] });
                 if (i == 0) {
                     str += arr.join("|")
@@ -62,7 +76,7 @@ var app = new Vue({
                 }
             }
             createQR(str)
-            document.getElementById('qr').scrollIntoView();
+            console.log(str)
         },
         decodeQR: function(str) {
             arr = str.split("\n");

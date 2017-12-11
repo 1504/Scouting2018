@@ -57,14 +57,19 @@
         <slideup v-model="viewData">
             <navbar theme="default">
                 <h4 slot="body">Data on Device</h4>
-                <icon name="qrcode" size="lg" @click="qr(selectedData)" slot="footer"></icon>
+                <icon name="qrcode" size="lg" @click="qr" slot="footer"></icon>
             </navbar>
-            <cell v-for="d in data">
+            <cell v-for="(d,i) in data">
                 <label class="checkbox checkbox-square">
-                    <input type="checkbox" v-model="selectedData" class="checkbox-input" :value="d">
+                    <input type="checkbox" v-model="selectedData" class="checkbox-input" :value="{data: d, _id: i}">
                     <span class="checkbox-addon"><i class="fa fa-check"></i></span>
                     <span class="checkbox-label">Team: {{d.team}}, Match: {{d.match}}</span>
                 </label>
+                <icon name="trash" class="text-danger" size="lg" @click="remove(i)" slot="footer"></icon>
+            </cell>
+            <hrule />
+            <cell>
+                <btn block size="lg" theme="secondary" @click="deleteSelected()">Delete Selected Reports</btn>
             </cell>
         </slideup>
         <navbar>
@@ -258,6 +263,7 @@ function createQR(data) {
     el.style.margin = "0 auto"
     var toReplace = document.getElementById('qr');
     toReplace.parentNode.replaceChild(el, toReplace);
+    document.getElementById('qr').scrollIntoView();
 }
 
 if ('addEventListener' in document) {
@@ -267,10 +273,11 @@ if ('addEventListener' in document) {
 }
 </script>
 <script>
-    var lastScan = ""
+var lastScan = ""
+
 function onQRCodeScanned(scannedText) {
     console.log(scannedText)
-    if(lastScan != scannedText){
+    if (lastScan != scannedText) {
         lastScan = scannedText
         app.decodeQR(lastScan)
     }
