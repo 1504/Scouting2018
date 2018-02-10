@@ -121,78 +121,68 @@
                 </inline-selector>
             </cell>
             <cell>
-                <inline-selector v-model="d.autongears" multiple>
-                    Gears: &nbsp;
-                    <inline-selector-option value="starts">Starts</inline-selector-option>
-                    <inline-selector-option value="places">Places</inline-selector-option>
+                <inline-selector v-model="d.autonswitch" multiple>
+                    Switch: &nbsp;
+                    <inline-selector-option value="right">Right</inline-selector-option>
+                    <inline-selector-option value="left">Left</inline-selector-option>
                 </inline-selector>
             </cell>
             <cell>
-                <inline-selector v-model="d.autonballs" multiple>
-                    Balls: &nbsp;
-                    <inline-selector-option value="starts">Starts</inline-selector-option>
-                    <inline-selector-option value="low">Low</inline-selector-option>
-                    <inline-selector-option value="high">High</inline-selector-option>
+                <inline-selector v-model="d.autonscale" multiple>
+                    Scale: &nbsp;
+                    <inline-selector-option value="right">Right</inline-selector-option>
+                    <inline-selector-option value="left">Left</inline-selector-option>
                 </inline-selector>
             </cell>
-            <cell>
-                High Goal Accuracy (%) &nbsp;
-                <input-number :min="0" v-model="d.autonhighaccu" :step="25" :max="100"></input-number>
-            </cell>
-            <cell>
-                Low Goal Accuracy (%) &nbsp;
-                <input-number :min="0" v-model="d.autonlowaccu" :step="25" :max="100"></input-number>
+           <cell>
+                Auton Placing Quality &nbsp;
+                <input-number :min="0" v-model="d.autonplacequality" :max="10"/>
             </cell>
         </group>
         <group-title>Teleop</group-title>
         <group>
             <cell>
+                <inline-selector v-model="d.teloppickup" multiple>
+                    Cube Collection: &nbsp;
+                    <inline-selector-option value="loadingstation">Station</inline-selector-option>
+                    <inline-selector-option value="floor">Floor</inline-selector-option>
+                </inline-selector>
+                <br>
+            </cell>
+            <cell>
+                Cubes Placed on Switch &nbsp;
+                <input-number :min="0" v-model="d.telopswitchcubesplaced" :max="20" />
+            </cell>
+            <cell>
+                Cubes Failed on Switch &nbsp;
+                <input-number :min="0" v-model="d.telopswitchcubesfailed" />
+            </cell>
+             <cell>
+                Cubes Placed on Scale &nbsp;
+                <input-number :min="0" v-model="d.telopscalecubesplaced" :max="20"/>
+            </cell>
+             <cell>
+                Cubes Failed on Scale &nbsp;
+                <input-number :min="0" v-model="d.telopscalecubesfailed" />
+            </cell>
+             <cell>
+                Cubes in Vault &nbsp;
+                <input-number :min="0" v-model="d.telopvaultcubes" :max="20"/>
+            </cell>
+            <cell>
                 <checkbox v-model="d.telopdefense">Defensive</checkbox>
             </cell>
-            <cell>
-                <inline-selector v-model="d.telopgears" multiple>
-                    Gear Collection: &nbsp;
-                    <inline-selector-option value="loadingstation">Station</inline-selector-option>
-                    <inline-selector-option value="floor">Floor</inline-selector-option>
-                </inline-selector>
-                <br>
-                <inline-selector v-model="d.telopgearwhere" multiple>
-                    Gear Placing: &nbsp;
-                    <inline-selector-option value="loadingstation">Side Peg</inline-selector-option>
-                    <inline-selector-option value="floor">Center Peg</inline-selector-option>
-                </inline-selector>
+             <cell>
+                Stopped Scoring &nbsp;
+                <input-number :min="0" v-model="d.telopdefscore" :max="20"/>
             </cell>
             <cell>
-                Gears Placed &nbsp;
-                <input-number :min="0" v-model="d.telopgearsplaced" :max="20" />
+                Stopped Pickup &nbsp;
+                <input-number :min="0" v-model="d.telopdefpickup" :max="20"/>
             </cell>
-            <cell>
-                Gears Failed &nbsp;
-                <input-number :min="0" v-model="d.telopgearsfailed" />
-            </cell>
-            <cell>
-                <checkbox v-model="d.teloprobostuck">Stuck on Peg</checkbox>
-            </cell>
-            <cell>
-                <inline-selector v-model="d.telopballcollec" multiple>
-                    Ball Collection: &nbsp;
-                    <inline-selector-option value="loadingstation">Station</inline-selector-option>
-                    <inline-selector-option value="floor">Floor</inline-selector-option>
-                </inline-selector>
-                <br>
-                <inline-selector v-model="d.telopballscore" multiple>
-                    Ball Goal: &nbsp;
-                    <inline-selector-option value="low">Low</inline-selector-option>
-                    <inline-selector-option value="high">High</inline-selector-option>
-                </inline-selector>
-            </cell>
-            <cell>
-                High Goal Accuracy (%) &nbsp;
-                <input-number :min="0" v-model="d.telophighaccu" :step="25" :max="100" />
-            </cell>
-            <cell>
-                Low Goal Accuracy (%) &nbsp;
-                <input-number :min="0" v-model="d.teloplowaccu" :step="25" :max="100" />
+              <cell>
+                Fouls &nbsp;
+                <input-number :min="0" v-model="d.teleopfoulnumber" :max="20"/>
             </cell>
         </group>
         <group-title>End Game</group-title>
@@ -208,15 +198,25 @@
                 Time to Hang (s) &nbsp;
                 <input-number :min="0" v-model="d.telophangtime" :step="5" :max="30"></input-number>
             </cell>
+             <cell>
+                <inline-selector v-model="d.autonlevitate">
+                    Levitate: &nbsp;
+                    <inline-selector-option value="levitate">Yes</inline-selector-option>
+                </inline-selector>
+            </cell>
+            <cell>
+                Number of other Robots Hanging &nbsp;
+                <input-number :min="0" v-model="d.otherrobothangtotal" :max="2"/>
+            </cell>
         </group>
         <group-title>Humans</group-title>
         <group>
             <cell>
                 <inline-selector v-model="d.driver">
                     Driver: &nbsp;
-                    <inline-selector-option value="low">Trash</inline-selector-option>
+                    <inline-selector-option value="low">Bad</inline-selector-option>
                     <inline-selector-option value="mid">Avg</inline-selector-option>
-                    <inline-selector-option value="high">God</inline-selector-option>
+                    <inline-selector-option value="high">Good</inline-selector-option>
                 </inline-selector>
             </cell>
         </group>
