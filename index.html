@@ -98,21 +98,18 @@
                     <inline-selector-option value="omni">Omni</inline-selector-option>
                     <inline-selector-option value="unknown">?</inline-selector-option>
                 </inline-selector>
-                <br>
-                <inline-selector v-model="d.wheels">
-                    Wheels: &nbsp;
-                    <inline-selector-option value="4">4</inline-selector-option>
-                    <inline-selector-option value="6">6</inline-selector-option>
-                    <inline-selector-option value="8">8</inline-selector-option>
-                    <inline-selector-option value="unknown">?</inline-selector-option>
-                </inline-selector>
-            </cell>
-            <cell>
-                <checkbox v-model="d.foul">Does it Foul</checkbox>
             </cell>
         </group>
         <group-title>Auton</group-title>
         <group>
+            <cell>
+                <inline-selector v-model="d.autonstartposition">
+                    Start position: &nbsp;
+                    <inline-selector-option value="left">Left</inline-selector-option>
+                    <inline-selector-option value="middle">Middle</inline-selector-option>
+                    <inline-selector-option value="right">Right</inline-selector-option>
+                </inline-selector>
+            </cell>
             <cell>
                 <inline-selector v-model="d.autonmovement">
                     Movement: &nbsp;
@@ -123,19 +120,26 @@
             <cell>
                 <inline-selector v-model="d.autonswitch" multiple>
                     Switch: &nbsp;
-                    <inline-selector-option value="right">Right</inline-selector-option>
                     <inline-selector-option value="left">Left</inline-selector-option>
+                    <inline-selector-option value="right">Right</inline-selector-option>
                 </inline-selector>
             </cell>
             <cell>
                 <inline-selector v-model="d.autonscale" multiple>
                     Scale: &nbsp;
-                    <inline-selector-option value="right">Right</inline-selector-option>
                     <inline-selector-option value="left">Left</inline-selector-option>
+                    <inline-selector-option value="right">Right</inline-selector-option>
+                </inline-selector>
+            </cell>
+            <cell>
+                <inline-selector v-model="d.autonvault" multiple>
+                    Scale: &nbsp;
+                    <inline-selector-option value="yes">Yes</inline-selector-option>
+                    <inline-selector-option value="no">No</inline-selector-option>
                 </inline-selector>
             </cell>
            <cell>
-                Auton Placing Quality &nbsp;
+                Auton placing quality &nbsp;
                 <input-number :min="0" v-model="d.autonplacequality" :max="10"/>
             </cell>
         </group>
@@ -143,46 +147,53 @@
         <group>
             <cell>
                 <inline-selector v-model="d.teloppickup" multiple>
-                    Cube Collection: &nbsp;
+                    Cube collection: &nbsp;
                     <inline-selector-option value="loadingstation">Station</inline-selector-option>
                     <inline-selector-option value="floor">Floor</inline-selector-option>
                 </inline-selector>
-                <br>
             </cell>
             <cell>
-                Cubes Placed on Switch &nbsp;
+                Cubes placed on switch &nbsp;
                 <input-number :min="0" v-model="d.telopswitchcubesplaced" :max="20" />
             </cell>
+             <cell>
+                Cubes placed on scale &nbsp;
+                <input-number :min="0" v-model="d.telopscalecubesplaced" :max="20"/>
+            </cell>
             <cell>
-                Cubes Failed on Switch &nbsp;
+                Cubes failed to be placed on switch &nbsp;
                 <input-number :min="0" v-model="d.telopswitchcubesfailed" />
             </cell>
              <cell>
-                Cubes Placed on Scale &nbsp;
-                <input-number :min="0" v-model="d.telopscalecubesplaced" :max="20"/>
-            </cell>
-             <cell>
-                Cubes Failed on Scale &nbsp;
+                Cubes failed to be placed on scale &nbsp;
                 <input-number :min="0" v-model="d.telopscalecubesfailed" />
             </cell>
              <cell>
-                Cubes in Vault &nbsp;
+                Cubes placed for vault &nbsp;
                 <input-number :min="0" v-model="d.telopvaultcubes" :max="20"/>
             </cell>
             <cell>
                 <checkbox v-model="d.telopdefense">Defensive</checkbox>
             </cell>
              <cell>
-                Stopped Scoring &nbsp;
+                Times stopped robots scoring &nbsp;
                 <input-number :min="0" v-model="d.telopdefscore" :max="20"/>
             </cell>
             <cell>
-                Stopped Pickup &nbsp;
+                Times stopped robots pickup &nbsp;
                 <input-number :min="0" v-model="d.telopdefpickup" :max="20"/>
             </cell>
               <cell>
                 Fouls &nbsp;
                 <input-number :min="0" v-model="d.teleopfoulnumber" :max="20"/>
+              </cell>
+            <cell>
+                <inline-selector v-model="d.telopfoultype" multiple>
+                    Foul type: &nbsp;
+                    <inline-selector-option value="Tech">Tech</inline-selector-option>
+                    <inline-selector-option value="Yellow">Yellow</inline-selector-option>
+                    <inline-selector-option value="Red">Red</inline-selector-option>
+                </inline-selector>
             </cell>
         </group>
         <group-title>End Game</group-title>
@@ -195,17 +206,18 @@
                 </inline-selector>
             </cell>
             <cell>
-                Time to Hang (s) &nbsp;
+                Time hanging (s) &nbsp;
                 <input-number :min="0" v-model="d.telophangtime" :step="5" :max="30"></input-number>
             </cell>
              <cell>
                 <inline-selector v-model="d.autonlevitate">
-                    Levitate: &nbsp;
-                    <inline-selector-option value="levitate">Yes</inline-selector-option>
+                    Used levitate: &nbsp;
+                    <inline-selector-option value="yes">Yes</inline-selector-option>
+                    <inline-selector-option value="no">No</inline-selector-option>
                 </inline-selector>
             </cell>
             <cell>
-                Number of other Robots Hanging &nbsp;
+                Number of other robots hanging &nbsp;
                 <input-number :min="0" v-model="d.otherrobothangtotal" :max="2"/>
             </cell>
         </group>
