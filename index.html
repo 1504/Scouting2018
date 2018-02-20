@@ -125,10 +125,24 @@
                 </inline-selector>
             </cell>
             <cell>
+                <inline-selector v-model="d.autonswithcorrectcolor" multiple>
+                    Placed on correct switch color: &nbsp;
+                    <inline-selector-option value="yes">Yes</inline-selector-option>
+                    <inline-selector-option value="no">No</inline-selector-option>
+                </inline-selector>
+            </cell>
+            <cell>
                 <inline-selector v-model="d.autonscale" multiple>
                     Scale: &nbsp;
                     <inline-selector-option value="left">Left</inline-selector-option>
                     <inline-selector-option value="right">Right</inline-selector-option>
+                </inline-selector>
+            </cell>
+            <cell>
+                <inline-selector v-model="d.autonscalecorrectcolor" multiple>
+                    Placed on correct scale color: &nbsp;
+                    <inline-selector-option value="yes">Yes</inline-selector-option>
+                    <inline-selector-option value="no">No</inline-selector-option>
                 </inline-selector>
             </cell>
             <cell>
@@ -217,9 +231,16 @@
                 </inline-selector>
             </cell>
             <cell>
+                <checkbox v-model="d.hangsonother">Hangs on other robot</checkbox>
+            </cell>
+            <cell>
+                <checkbox v-model="d.otherhangson">Other robot hangs on to this robot</checkbox>
+            </cell>
+            <cell>
                 Number of other robots hanging &nbsp;
                 <input-number :min="0" v-model="d.endrobothangtotal" :max="2"/>
             </cell>
+
         </group>
         <group-title>Humans</group-title>
         <group>

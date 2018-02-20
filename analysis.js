@@ -50,8 +50,16 @@ var app = new Vue({
                 if (!_.includes(item.autonswitch, "left" || "right")) return { c: "r", match: item.match }
                 else return { c: "g", match: item.match }
             });
+            stuff.autonswitch = _.map(matches, function (item) {
+                if (!_.includes(item.autonswitch, "yes" || "no")) return { c: "r", match: item.match }
+                else return { c: "g", match: item.match }
+            });
             stuff.autonscale = _.map(matches, function (item) {
                 if (!_.includes(item.autonscale, "left" || "right")) return { c: "r", match: item.match }
+                else return { c: "g", match: item.match }
+            });
+            stuff.autonscalecorrectcolor = _.map(matches, function (item) {
+                if (!_.includes(item.autonscale, "yes" || "no")) return { c: "r", match: item.match }
                 else return { c: "g", match: item.match }
             });
             stuff.autonsvault = _.map(matches, function (item) {
@@ -91,6 +99,14 @@ var app = new Vue({
             stuff.hangtime = _.round(_.mean(_.compact(_.map(matches, "hangtime"))), 3)
             stuff.usedlevitate = _.map(matches, function (item) {
                 if (item.endlevitate != "Yes") return { c: "r", match: item.match }
+                else return { c: "g", match: item.match }
+            });
+            stuff.hangsonother = _.map(matches, function (item) {
+                if (item.hangsonother) return { c: "r", match: item.match }
+                else return { c: "g", match: item.match }
+            });
+            stuff.otherhangson = _.map(matches, function (item) {
+                if (item.otherhangson) return { c: "r", match: item.match }
                 else return { c: "g", match: item.match }
             });
             stuff.endrobothangtotal = _.map(matches, "endrobothangtotal")
