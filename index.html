@@ -133,7 +133,7 @@
             </cell>
             <cell>
                 <inline-selector v-model="d.autonvault" multiple>
-                    Scale: &nbsp;
+                    Vault: &nbsp;
                     <inline-selector-option value="yes">Yes</inline-selector-option>
                     <inline-selector-option value="no">No</inline-selector-option>
                 </inline-selector>
@@ -146,7 +146,7 @@
         <group-title>Teleop</group-title>
         <group>
             <cell>
-                <inline-selector v-model="d.teloppickup" multiple>
+                <inline-selector v-model="d.pickup" multiple>
                     Cube collection: &nbsp;
                     <inline-selector-option value="loadingstation">Station</inline-selector-option>
                     <inline-selector-option value="floor">Floor</inline-selector-option>
@@ -154,41 +154,41 @@
             </cell>
             <cell>
                 Cubes placed on switch &nbsp;
-                <input-number :min="0" v-model="d.telopswitchcubesplaced" :max="20" />
+                <input-number :min="0" v-model="d.switchcubesplaced" :max="20" />
             </cell>
              <cell>
                 Cubes placed on scale &nbsp;
-                <input-number :min="0" v-model="d.telopscalecubesplaced" :max="20"/>
+                <input-number :min="0" v-model="d.scalecubesplaced" :max="20"/>
             </cell>
             <cell>
                 Cubes failed to be placed on switch &nbsp;
-                <input-number :min="0" v-model="d.telopswitchcubesfailed" />
+                <input-number :min="0" v-model="d.switchcubesfailed" />
             </cell>
              <cell>
                 Cubes failed to be placed on scale &nbsp;
-                <input-number :min="0" v-model="d.telopscalecubesfailed" />
+                <input-number :min="0" v-model="d.scalecubesfailed" />
             </cell>
              <cell>
                 Cubes placed for vault &nbsp;
-                <input-number :min="0" v-model="d.telopvaultcubes" :max="20"/>
+                <input-number :min="0" v-model="d.vaultcubes" :max="20"/>
             </cell>
             <cell>
-                <checkbox v-model="d.telopdefense">Defensive</checkbox>
+                <checkbox v-model="d.defensive">Defensive</checkbox>
             </cell>
              <cell>
                 Times stopped robots scoring &nbsp;
-                <input-number :min="0" v-model="d.telopdefscore" :max="20"/>
+                <input-number :min="0" v-model="d.defscore" :max="20"/>
             </cell>
             <cell>
                 Times stopped robots pickup &nbsp;
-                <input-number :min="0" v-model="d.telopdefpickup" :max="20"/>
+                <input-number :min="0" v-model="d.defpickup" :max="20"/>
             </cell>
               <cell>
                 Fouls &nbsp;
-                <input-number :min="0" v-model="d.teleopfoulnumber" :max="20"/>
+                <input-number :min="0" v-model="d.foulnumber" :max="20"/>
               </cell>
             <cell>
-                <inline-selector v-model="d.telopfoultype" multiple>
+                <inline-selector v-model="d.foultype" multiple>
                     Foul type: &nbsp;
                     <inline-selector-option value="Tech">Tech</inline-selector-option>
                     <inline-selector-option value="Yellow">Yellow</inline-selector-option>
@@ -199,7 +199,7 @@
         <group-title>End Game</group-title>
         <group>
             <cell>
-                <inline-selector v-model="d.telopballhang">
+                <inline-selector v-model="d.hang">
                     Hang: &nbsp;
                     <inline-selector-option value="attempt">Attempt</inline-selector-option>
                     <inline-selector-option value="success">Success</inline-selector-option>
@@ -207,10 +207,10 @@
             </cell>
             <cell>
                 Time hanging (s) &nbsp;
-                <input-number :min="0" v-model="d.telophangtime" :step="5" :max="30"></input-number>
+                <input-number :min="0" v-model="d.hangtime" :step="5" :max="30"></input-number>
             </cell>
              <cell>
-                <inline-selector v-model="d.autonlevitate">
+                <inline-selector v-model="d.endlevitate">
                     Used levitate: &nbsp;
                     <inline-selector-option value="yes">Yes</inline-selector-option>
                     <inline-selector-option value="no">No</inline-selector-option>
@@ -218,7 +218,7 @@
             </cell>
             <cell>
                 Number of other robots hanging &nbsp;
-                <input-number :min="0" v-model="d.otherrobothangtotal" :max="2"/>
+                <input-number :min="0" v-model="d.endrobothangtotal" :max="2"/>
             </cell>
         </group>
         <group-title>Humans</group-title>
@@ -254,63 +254,63 @@
 <script src="app.js">
 </script>
 <script>
-function createQR(data) {
-    var el = kjua({
-        render: 'canvas',
-        crisp: true,
-        // error correction level: 'L', 'M', 'Q' or 'H'
-        ecLevel: 'L',
-        // size in pixels
-        size: 650,
-        ratio: null,
-        text: data, //actual value
-        rounded: 100,
-    });
-    el.id = "qr"
-    el.style["max-width"] = "100%"
-    el.style["height"] = "auto"
-    el.style.display = "block"
-    el.style.margin = "0 auto"
-    var toReplace = document.getElementById('qr');
-    toReplace.parentNode.replaceChild(el, toReplace);
-    document.getElementById('qr').scrollIntoView();
-}
+    function createQR(data) {
+        var el = kjua({
+            render: 'canvas',
+            crisp: true,
+            // error correction level: 'L', 'M', 'Q' or 'H'
+            ecLevel: 'L',
+            // size in pixels
+            size: 650,
+            ratio: null,
+            text: data, //actual value
+            rounded: 100,
+        });
+        el.id = "qr"
+        el.style["max-width"] = "100%"
+        el.style["height"] = "auto"
+        el.style.display = "block"
+        el.style.margin = "0 auto"
+        var toReplace = document.getElementById('qr');
+        toReplace.parentNode.replaceChild(el, toReplace);
+        document.getElementById('qr').scrollIntoView();
+    }
 
-if ('addEventListener' in document) {
-    document.addEventListener('DOMContentLoaded', function() {
-        FastClick.attach(document.body);
-    }, false);
-}
+    if ('addEventListener' in document) {
+        document.addEventListener('DOMContentLoaded', function () {
+            FastClick.attach(document.body);
+        }, false);
+    }
 </script>
 <script>
-var lastScan = ""
+    var lastScan = ""
 
-function onQRCodeScanned(scannedText) {
-    console.log(scannedText)
-    if (lastScan != scannedText) {
-        lastScan = scannedText
-        app.decodeQR(lastScan)
+    function onQRCodeScanned(scannedText) {
+        console.log(scannedText)
+        if (lastScan != scannedText) {
+            lastScan = scannedText
+            app.decodeQR(lastScan)
+        }
+        if (scannedTextMemo) {
+            scannedTextMemo.value = scannedText;
+        }
     }
-    if (scannedTextMemo) {
-        scannedTextMemo.value = scannedText;
-    }
-}
 
-//this function will be called when JsQRScanner is ready to use
-function JsQRScannerReady() {
-    //create a new scanner passing to it a callback function that will be invoked when
-    //the scanner succesfully scan a QR code
-    var jbScanner = new JsQRScanner(onQRCodeScanned);
-    //reduce the size of analyzed images to increase performance on mobile devices
-    jbScanner.setSnapImageMaxSize(300);
-    var scannerParentElement = document.getElementById("scanner");
-    scannerParentElement.style.display = "block"
-    scannerParentElement.style.margin = "0 auto"
-    if (scannerParentElement) {
-        //append the jbScanner to an existing DOM element
-        jbScanner.appendTo(scannerParentElement);
+    //this function will be called when JsQRScanner is ready to use
+    function JsQRScannerReady() {
+        //create a new scanner passing to it a callback function that will be invoked when
+        //the scanner succesfully scan a QR code
+        var jbScanner = new JsQRScanner(onQRCodeScanned);
+        //reduce the size of analyzed images to increase performance on mobile devices
+        jbScanner.setSnapImageMaxSize(300);
+        var scannerParentElement = document.getElementById("scanner");
+        scannerParentElement.style.display = "block"
+        scannerParentElement.style.margin = "0 auto"
+        if (scannerParentElement) {
+            //append the jbScanner to an existing DOM element
+            jbScanner.appendTo(scannerParentElement);
+        }
     }
-}
 </script>
 
 </html>
