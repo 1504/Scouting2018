@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<ss:Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:html="http://www.w3.org/TR/REC-html140" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+  <ss:Styles>
+    <ss:Style ss:ID="DateTime">
+      <ss:NumberFormat ss:Format="mm/dd/yyyy_hh:mm:ss"/>
+    </ss:Style>
+  </ss:Styles>
+</ss:Workbook>

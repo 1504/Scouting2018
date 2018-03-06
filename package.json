@@ -1,0 +1,23 @@
+{
+  "name": "scouting2018",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1504/Scouting2018.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/1504/Scouting2018/issues"
+  },
+  "homepage": "https://github.com/1504/Scouting2018#readme"
+}

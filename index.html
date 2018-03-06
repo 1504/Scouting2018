@@ -13,9 +13,9 @@
     <script src="lib/store2.min.js"></script>
     <script src="lib/vue-resource.min.js"></script>
     <script src="lib/fastclick.js"></script>
-    <script src="lib/kjua.min.js"></script>
+    <!--<script src="lib/kjua.min.js"></script>-->
     <script src="lib/pako.min.js"></script>
-    <script type="text/javascript" src="lib/qr/jsqrscanner.nocache.js"></script>
+    <!--<script type="text/javascript" src="lib/qr/jsqrscanner.nocache.js"></script>-->
     <link rel="stylesheet" href="css/fontawesome.css">
     <style>
     .input-text-input,
@@ -37,7 +37,7 @@
                 Number of forms: {{data.length}}
             </cell>
             <cell>
-                <btn theme="default" block @click="viewData = true">VIEW DATA</btn>
+                <btn v-if="s.password == auth" theme="default" block @click="viewData = true">VIEW DATA</btn>
             </cell>
             <cell>
                 <input-text v-model="s.name" placeholder="Name" type="text" />

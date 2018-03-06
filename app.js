@@ -15,6 +15,7 @@ var app = new Vue({
         var self = this;
         this.$http.get('/fields.json').then(function(resp) {
             self.d = resp.body
+            console.log(self.d)
         }, function() {
         
         });
