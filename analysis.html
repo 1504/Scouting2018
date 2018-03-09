@@ -54,23 +54,37 @@
                     <div class="description">
                         <b class="big">Summary</b>
                         <div class="ui">
-                            <div v-if="(team.telophigh == 0) && (team.teloplow == 0)">
-                                <b>They don't shoot in teleop</b>
+                            <div v-if="(team.autonswitch = "no") && (team.autonscale = "no") && (team.autonvault = "no")">
+                                <b>They don't place cubes in auton</b>
                             </div>
-                            <div v-else>
+                             <div v-if="(team.autonswitch = "yes") && (team.autonscale = "no") && (team.autonvault = "no")">
+                                <b>They place cubes on the switch in auton</b>
+                            </div>
+                             <div v-if="(team.autonswitch = "no") && (team.autonscale = "yes") && (team.autonvault = "no")">
+                                <b>They place cubes on the scale in auton</b>
+                            </div>
+                             <div v-if="(team.autonswitch = "no") && (team.autonscale = "no") && (team.autonvault = "yes")">
+                                <b>They place cubes in the vault in auton</b>
+                            </div>
+                            <!--<div v-else>
                                 <div>Telop High Goal Accuracy: <b>{{team.telophigh}}%</b></div>
                                 <div>Telop Low Goal Accuracy: <b>{{team.teloplow}}%</b></div>
-                            </div>
-                            <div v-if="(team.autonhigh == 0) && (team.autonlow == 0)">
+                            </div>-->
+                            <!--<div v-if="(team.autonhigh == 0) && (team.autonlow == 0)">
                                 <b>They don't shoot in auton</b>
                             </div>
                             <div v-else>
                                 <div>Auton High Goal Accuracy: <b>{{team.autonhigh}}%</b></div>
                                 <div>Auton Low Goal Accuracy: <b>{{team.autonlow}}%</b></div>
+                            </div>-->
+                            <div>Cubes Placed on Switch - Avg: <b>{{_.round(_.mean(team.switchcubesplaced), 3)}}</b> &nbsp; 1st Quartile: <b>{{_.round(ss.quantile(team.switchcubesplaced, .25), 3)}}</b> &nbsp; Median: <b>{{_.round(ss.quantile(team.switchcubesplaced, .5), 3)}}</b> &nbsp; 3rd Quartile: <b>{{_.round(ss.quantile(team.switchcubesplaced, .75), 3)}}</b> &nbsp; Min: <b>{{_.round(ss.min(team.switchcubesplaced, .25), 3)}}</b> &nbsp; Max: <b>{{_.round(ss.max(team.switchcubesplaced, .25), 3)}}</b>
                             </div>
-                            <div>Gears Placed - Avg: <b>{{_.round(_.mean(team.gearsplaced), 3)}}</b> &nbsp; 1st Quartile: <b>{{_.round(ss.quantile(team.gearsplaced, .25), 3)}}</b> &nbsp; Median: <b>{{_.round(ss.quantile(team.gearsplaced, .5), 3)}}</b> &nbsp; 3rd Quartile: <b>{{_.round(ss.quantile(team.gearsplaced, .75), 3)}}</b> &nbsp; Min: <b>{{_.round(ss.min(team.gearsplaced, .25), 3)}}</b> &nbsp; Max: <b>{{_.round(ss.max(team.gearsplaced, .25), 3)}}</b>
+                             <div>Cubes Placed on Scale - Avg: <b>{{_.round(_.mean(team.scalecubesplaced), 3)}}</b> &nbsp; 1st Quartile: <b>{{_.round(ss.quantile(team.scalecubesplaced, .25), 3)}}</b> &nbsp; Median: <b>{{_.round(ss.quantile(team.scalecubesplaced, .5), 3)}}</b> &nbsp; 3rd Quartile: <b>{{_.round(ss.quantile(team.scalecubesplaced, .75), 3)}}</b> &nbsp; Min: <b>{{_.round(ss.min(team.scalecubesplaced, .25), 3)}}</b> &nbsp; Max: <b>{{_.round(ss.max(team.scalecubesplaced, .25), 3)}}</b>
                             </div>
-                            <div>Avg Gears Failed: <b>{{team.gearsfailed}}</b></div>
+                            <div>Cubes Placed in Vault - Avg: <b>{{_.round(_.mean(team.vaultcubes), 3)}}</b> &nbsp; 1st Quartile: <b>{{_.round(ss.quantile(team.vaultcubes, .25), 3)}}</b> &nbsp; Median: <b>{{_.round(ss.quantile(team.vaultcubes, .5), 3)}}</b> &nbsp; 3rd Quartile: <b>{{_.round(ss.quantile(team.vaultcubes, .75), 3)}}</b> &nbsp; Min: <b>{{_.round(ss.min(team.vaultcubes, .25), 3)}}</b> &nbsp; Max: <b>{{_.round(ss.max(team.vaultcubes, .25), 3)}}</b>
+                            </div>
+                            <div>Avg Cubes Failed on Switch: <b>{{team.switchcubesfailed}}</b></div>
+                            <div>Avg Cubes Failed on Scale: <b>{{team.scalecubesfailed}}</b></div>
                             <!--<div>Avg Gear Cycle Time: <b>{{team.cycletime}} seconds</b></div>-->
                         </div>
                     </div>
@@ -80,7 +94,7 @@
                         <div class="ui">
                             <div>Drive Type: <b>{{team.drivetype}} wheels</b></div>
                             <div>Clean Matches:
-                                <matches :d="team.fouls"></matches>
+                                <matches :d="team.foul"></matches>
                             </div>
                         </div>
                     </div>
@@ -88,49 +102,70 @@
                     <div class="description">
                         <b class="big">Auton</b>
                         <div class="ui">
-                            <div v-if="(team.autonhigh == 0) && (team.autonlow == 0)">
-                                <b>They don't shoot in auton</b>
+                            <div v-if="(team.autonswitch = "no") && (team.autonscale = "no") && (team.autonvault = "no")">
+                                <b>They don't place cubes in auton</b>
                             </div>
-                            <div v-else>
+                             <div v-if="(team.autonswitch = "yes") && (team.autonscale = "no") && (team.autonvault = "no")">
+                                <b>They place cubes on the switch in auton</b>
+                            </div>
+                             <div v-if="(team.autonswitch = "no") && (team.autonscale = "yes") && (team.autonvault = "no")">
+                                <b>They place cubes on the scale in auton</b>
+                            </div>
+                             <div v-if="(team.autonswitch = "no") && (team.autonscale = "no") && (team.autonvault = "yes")">
+                                <b>They place cubes in the vault in auton</b>
+                            </div>
+                             <!--<div v-else>
                                 <div>High Goal Accuracy: <b>{{team.autonhigh}}%</b></div>
                                 <div>Low Goal Accuracy: <b>{{team.autonlow}}%</b></div>
+                            </div>-->
+                            <div>Moved/Crossed:
+                                <matches :d="team.autonmovement"></matches>
                             </div>
-                            <div>Moved:
-                                <matches :d="team.moved"></matches>
-                            </div>
-                            <div>Crossed:
+                            <!--<div>Crossed:
                                 <matches :d="team.crossed"></matches>
                             </div>
                             <div>Started with Gears:
                                 <matches :d="team.startgears"></matches>
+                            </div>-->
+                            <div>Placed Cubes on Switch:
+                                <matches :d="team.autonswitch"></matches>
                             </div>
-                            <div>Placed Gears:
-                                <matches :d="team.placegears"></matches>
+                            <div>Placed Cubes on Scale:
+                                <matches :d="team.autonscale"></matches>
+                            </div>
+                            <div>Placed Cubes in Vault:
+                                <matches :d="team.autonvault"></matches>
                             </div>
                         </div>
                     </div>
                     <br>
                     <div class="description">
                         <b class="big">Telop</b>
-                        <div v-if="(team.telophigh == 0) && (team.teloplow == 0)">
-                            <b>They don't shoot in telop</b>
+                        <div v-if="(team.scalecubesplaced == 0) && (team.scalecubesfailed == 0)">
+                            <b>They don't attempt to place cubes on the scale</b>
                         </div>
-                        <div v-else>
+                        <div v-if="(team.scalecubesplaced == 0) && (team.scalecubesfailed != 0)">
+                            <b>They try to place cubes on the scale but haven't</b>
+                        </div>
+                        <!--<div v-else>
                             <div>High Goal Accuracy: <b>{{team.telophigh}}%</b></div>
                             <div>Low Goal Accuracy: <b>{{team.teloplow}}%</b></div>
-                        </div>
+                        </div>-->
                         <div>Defensive:
                             <matches :d="team.defensive"></matches>
                         </div>
                         <!--<div>Gear Collection: <b>Ground: 45 (4 avg) | Station: 67 (5 avg)</b></div>-->
                         <!--<div>Avg Gear Cycle Time: <b>{{team.cycletime}} seconds</b></div>-->
-                        <div>Avg Gears Placed: <b>{{_.round(_.mean(team.gearsplaced), 3)}}</b></div>
-                        <div>Avg Gears Failed: <b>{{team.gearsfailed}}</b></div>
-                        <div>Gear Stuck on Peg:
+                        <div>Avg Cubes Placed on Switch: <b>{{_.round(_.mean(team.switchcubesplaced), 3)}}</b></div>
+                        <div>Avg Cubes Placed on Scale: <b>{{_.round(_.mean(team.scalecubesplaced), 3)}}</b></div>
+                        <div>Avg Cubes Placed in Vault: <b>{{_.round(_.mean(team.vaultcubes), 3)}}</b></div>
+                        <div>Avg Cubes Failed to be Placed on Switch: <b>{{team.switchcubesfailed}}</b></div>
+                        <div>Avg Cubes Failed to be Placed on Scale: <b>{{team.scalecubesfailed}}</b></div>
+                        <!--<div>Gear Stuck on Peg:
                             <matches :d="team.stuck"></matches>
-                        </div>
+                        </div>-->
                         <div>Hanging:
-                            <matches :d="team.hanging"></matches>
+                            <matches :d="team.hang"></matches>
                         </div>
                         <div>Avg Time to Hang: <b>{{team.hangtime}} seconds</b></div>
                         <!--<div>Driver Quality: <b>73%</b></div>-->
