@@ -42,18 +42,9 @@ var app = new Vue({
                 if (item.a_movement != "cross") return { c: "r", match: item.match }
                 else return { c: "g", match: item.match }
             });
-            stuff.a_switch = _.map(matches, function (item) {
-                if (!_.includes(item.a_switch, "left" || "right")) return { c: "r", match: item.match }
-                else return { c: "g", match: item.match }
-            });
-            stuff.a_scale = _.map(matches, function (item) {
-                if (!_.includes(item.a_scale, "left" || "right")) return { c: "r", match: item.match }
-                else return { c: "g", match: item.match }
-            });
-            stuff.a_vault = _.map(matches, function (item) {
-                if (!_.includes(item.a_vault, "Yes")) return { c: "r", match: item.match }
-                else return { c: "g", match: item.match }
-            });
+            stuff.a_switch_cubes = _.map(matches, "a_switch_cubes")
+            stuff.a_scale_cubes = _.map(matches, "a_scale_cubes")
+            stuff.a_vault_cubes = _.map(matches, "a_vault_cubes")
             stuff.autonquality = _.round(_.meanBy(matches, "a_place_quality"), 3)
             stuff.defensive = _.map(matches, function (item) {
                 if (!item.defense) return { c: "r", match: item.match }
@@ -66,12 +57,13 @@ var app = new Vue({
             stuff.switch_cubes = _.map(matches, "switch_cubes")
             stuff.scale_cubes = _.map(matches, "scale_cubes")
             stuff.vault_cubes = _.map(matches, "vault_cubes")
+            stuff.switch_cubes_failed = _.map(matches, "switch_cubes_failed")
+            stuff.scale_cubes_failed = _.map(matches, "scale_cubes_failed")
             stuff.defensive = _.map(matches, function (item) {
                 if (item.defensive) return { c: "r", match: item.match }
                 else return { c: "g", match: item.match }
             });
-            stuff.def_score = _.round(_.meanBy(matches, "def_score"), 3)
-            stuff.def_pickup = _.round(_.meanBy(matches, "def_pickup"), 3)
+            stuff.def_cubes = _.round(_.meanBy(matches, "def_cubes"), 3)
             stuff.foul_number = _.round(_.meanBy(matches, "foul_number"), 3)
             //stuff.cycletime = _.round(_.mean(_.compact(_.map(matches, "telopgearstime"))), 3)
             stuff.comments = {}
@@ -82,20 +74,12 @@ var app = new Vue({
                 if (item.hang == 'success') return { c: "g", match: item.match }
                 else return { c: "r", match: item.match }
             });
-            stuff.hang_time = _.round(_.mean(_.compact(_.map(matches, "hang_time"))), 3)
-            stuff.levitate = _.map(matches, function (item) {
-                if (item.levitate != "Yes") return { c: "r", match: item.match }
-                else return { c: "g", match: item.match }
-            });
+            stuff.time_to_hang = _.round(_.mean(_.compact(_.map(matches, "time_to_hang"))), 3)
             stuff.hanged_on_other = _.map(matches, function (item) {
                 if (item.hangsonother) return { c: "r", match: item.match }
                 else return { c: "g", match: item.match }
             });
-            stuff.can_carry = _.map(matches, function (item) {
-                if (item.otherhangson) return { c: "r", match: item.match }
-                else return { c: "g", match: item.match }
-            });
-            stuff.robot_hang_total = _.map(matches, "endrobothangtotal")
+            stuff.carry_number = _.map(matches, "carry_number")
             stuff.raw = matches;
             console.log(stuff)
             this.data.unshift(stuff)

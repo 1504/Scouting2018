@@ -109,28 +109,19 @@
                 </inline-selector>
             </cell>
             <cell>
-                <inline-selector v-model="d.a_switch" multiple>
-                    Switch: &nbsp;
-                    <inline-selector-option value="left">Left</inline-selector-option>
-                    <inline-selector-option value="right">Right</inline-selector-option>
-                </inline-selector>
+                Auton switch cubes &nbsp;
+                <input-number :min="0" v-model="d.a_switch_cubes" :max="20" />
             </cell>
-            <cell>
-                <inline-selector v-model="d.a_scale" multiple>
-                    Scale: &nbsp;
-                    <inline-selector-option value="left">Left</inline-selector-option>
-                    <inline-selector-option value="right">Right</inline-selector-option>
-                </inline-selector>
+             <cell>
+                Auton scale cubes &nbsp;
+                <input-number :min="0" v-model="d.a_scale_cubes" :max="20"/>
             </cell>
-            <cell>
-                <inline-selector v-model="d.a_vault" multiple>
-                    Vault: &nbsp;
-                    <inline-selector-option value="yes">Yes</inline-selector-option>
-                    <inline-selector-option value="no">No</inline-selector-option>
-                </inline-selector>
+             <cell>
+                Auton vault cubes &nbsp;
+                <input-number :min="0" v-model="d.a_vault_cubes" :max="20"/>
             </cell>
            <cell>
-                Auton placing quality &nbsp;
+                Auton placing quality (1-10) &nbsp;
                 <input-number :min="0" v-model="d.a_place_quality" :max="10"/>
             </cell>
         </group>
@@ -144,12 +135,20 @@
                 </inline-selector>
             </cell>
             <cell>
-                Cubes placed on switch &nbsp;
+               Switch cubes &nbsp;
                 <input-number :min="0" v-model="d.switch_cubes" :max="20" />
             </cell>
              <cell>
-                Cubes placed on scale &nbsp;
+               Scale cubes &nbsp;
                 <input-number :min="0" v-model="d.scale_cubes" :max="20"/>
+            </cell>
+            <cell>
+               Switch cubes failed &nbsp;
+                <input-number :min="0" v-model="d.switch_cubes_failed" :max="20" />
+            </cell>
+             <cell>
+               Scale cubes failed &nbsp;
+                <input-number :min="0" v-model="d.scale_cubes_failed" :max="20"/>
             </cell>
              <cell>
                 Cubes placed for vault &nbsp;
@@ -159,12 +158,8 @@
                 <checkbox v-model="d.defensive">Defensive</checkbox>
             </cell>
              <cell>
-                Times stopped robots scoring &nbsp;
-                <input-number :min="0" v-model="d.def_score" :max="20"/>
-            </cell>
-            <cell>
-                Times stopped robots pickup &nbsp;
-                <input-number :min="0" v-model="d.def_pickup" :max="20"/>
+                Cubes on opponent switch &nbsp;
+                <input-number :min="0" v-model="d.def_cubes" :max="20"/>
             </cell>
               <cell>
                 Fouls &nbsp;
@@ -189,22 +184,18 @@
                 </inline-selector>
             </cell>
             <cell>
-                Time hanging (s) &nbsp;
-                <input-number :min="0" v-model="d.hang_time" :step="5" :max="30"></input-number>
-            </cell>
-             <cell>
-                <inline-selector v-model="d.levitate">
-                    Used levitate: &nbsp;
-                    <inline-selector-option value="yes">Yes</inline-selector-option>
-                    <inline-selector-option value="no">No</inline-selector-option>
-                </inline-selector>
+                Time to hang (s) &nbsp;
+                <input-number :min="0" v-model="d.time_to_hang" :step="5" :max="30"></input-number>
             </cell>
             <cell>
                 <checkbox v-model="d.hanged_on_other">Hangs on other robot</checkbox>
             </cell>
-            <cell>
-                <checkbox v-model="d.can_carry">Can carry other robots</checkbox>
             </cell>
+              <cell>
+                Carries (#) robots &nbsp;
+                <input-number :min="0" v-model="d.carry_number" :max="20"/>
+              </cell>
+            <cell>
             <cell>
                 Number of other robots hanging &nbsp;
                 <input-number :min="0" v-model="d.endrobothangtotal" :max="2"/>
