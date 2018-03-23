@@ -8,25 +8,26 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <script src="lib/vue.js"></script>
+    <script src="lib/semantic.min.js"></script>
     <script src="lib/vue-resource.min.js"></script>
     <script src="lib/lodash.min.js"></script>
     <script src="lib/stats.js"></script>
     <script src="lib/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="css/semantic.min.css">
     <link rel="stylesheet" href="css/sweetalert2.min.css">
     <link type="text/css" rel="stylesheet" href="css/lit.css"  media="screen,projection"/>
     <script>
         // quantile = ss.quantile(list, 0.5);
     </script>
-    
+
 </head>
 
 <body>
-    <div id="app" class="c">
-        <h2 class="mt0">Scouting Analysis</h2>
+    <div id="app" class="ui container">
+        <div class="ui huge header" style="margin-top:1em">Scouting Analysis</div>
         <div class="ui action input">
-            <input type="text" class="card" placeholder="Team Number" v-model="team">
-            <button class="btn primary" @click="submit">Add</button>
-            <a class="btn" href="/download">Download</a>
+            <input type="text" placeholder="Team Number" v-model="team">
+            <button class="ui button" @click="submit">Add</button>
         </div>
         <div class="ui divider"></div>
         <div class="ui cards grid three column grid stackable">
