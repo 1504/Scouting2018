@@ -28,6 +28,11 @@ var app = new Vue({
     },
     methods: {
         submit: function() {
+            for (var key in this.d) {
+                if (this.d.hasOwnProperty(key) && typeof(this.d[key]) === "boolean"){
+                    this.d[key] = this.d[key].toString()
+                }   
+            }
             this.data.push(this.d);
             store('data', this.data);
             this.d.name = this.s.name;
