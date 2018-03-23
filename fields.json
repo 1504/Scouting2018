@@ -2,6 +2,7 @@
     "match": "",
     "team": "",
     "color": "blue",
+    "foul": false,
 	"a_start_pos": "",
     "a_movement": "",
     "a_switch_cubes": 0,
