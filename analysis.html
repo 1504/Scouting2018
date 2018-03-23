@@ -41,16 +41,16 @@
                     <div class="description">
                         <b class="big">Summary</b>
                         <div class="ui">
-                            <div v-if="(team.autonswitch = " no ") && (team.autonscale = "no ") && (team.autonvault = "no ")">
+                            <div v-if="{_.round(_.mean(team.a_switch_cubes), 3)} < 1">
                                 <b>They don't place cubes in auton</b>
                             </div>
-                            <div v-if="(team.autonswitch = " yes ") && (team.autonscale = "no ") && (team.autonvault = "no ")">
+                            <div v-if="{_.round(_.mean(team.a_switch_cubes), 3)} < 1">
                                 <b>They place cubes on the switch in auton</b>
                             </div>
-                            <div v-if="(team.autonswitch = " no ") && (team.autonscale = "yes ") && (team.autonvault = "no ")">
+                            <div v-if="{_.round(_.mean(team.a_scale_cubes), 3)} < 1">
                                 <b>They place cubes on the scale in auton</b>
                             </div>
-                            <div v-if="(team.autonswitch = " no ") && (team.autonscale = "no ") && (team.autonvault = "yes ")">
+                            <div v-if="{_.round(_.mean(team.a_vault_cubes), 3)} < 1">
                                 <b>They place cubes in the vault in auton</b>
                             </div>
                             <!--<div v-else>
@@ -64,14 +64,14 @@
                     <div>Auton High Goal Accuracy: <b>{{team.autonhigh}}%</b></div>
                     <div>Auton Low Goal Accuracy: <b>{{team.autonlow}}%</b></div>
                     </div>-->
-                            <div>Cubes Placed on Switch - Avg: <b>{{_.round(_.mean(team.switchcubesplaced), 3)}}</b> &nbsp; 1st Quartile: <b>{{_.round(ss.quantile(team.switchcubesplaced, .25), 3)}}</b> &nbsp; Median: <b>{{_.round(ss.quantile(team.switchcubesplaced, .5), 3)}}</b> &nbsp; 3rd Quartile: <b>{{_.round(ss.quantile(team.switchcubesplaced, .75), 3)}}</b> &nbsp; Min: <b>{{_.round(ss.min(team.switchcubesplaced, .25), 3)}}</b> &nbsp; Max: <b>{{_.round(ss.max(team.switchcubesplaced, .25), 3)}}</b>
+                            <div>Cubes Placed on Switch - Avg: <b>{{_.round(_.mean(team.switch_cubes), 3)}}</b> &nbsp; 1st Quartile: <b>{{_.round(ss.quantile(team.switch_cubes, .25), 3)}}</b> &nbsp; Median: <b>{{_.round(ss.quantile(team.switch_cubes, .5), 3)}}</b> &nbsp; 3rd Quartile: <b>{{_.round(ss.quantile(team.switch_cubes, .75), 3)}}</b> &nbsp; Min: <b>{{_.round(ss.min(team.switch_cubes, .25), 3)}}</b> &nbsp; Max: <b>{{_.round(ss.max(team.switch_cubes, .25), 3)}}</b>
                             </div>
-                            <div>Cubes Placed on Scale - Avg: <b>{{_.round(_.mean(team.scalecubesplaced), 3)}}</b> &nbsp; 1st Quartile: <b>{{_.round(ss.quantile(team.scalecubesplaced, .25), 3)}}</b> &nbsp; Median: <b>{{_.round(ss.quantile(team.scalecubesplaced, .5), 3)}}</b> &nbsp; 3rd Quartile: <b>{{_.round(ss.quantile(team.scalecubesplaced, .75), 3)}}</b> &nbsp; Min: <b>{{_.round(ss.min(team.scalecubesplaced, .25), 3)}}</b> &nbsp; Max: <b>{{_.round(ss.max(team.scalecubesplaced, .25), 3)}}</b>
+                            <div>Cubes Placed on Scale - Avg: <b>{{_.round(_.mean(team.scale_cubes), 3)}}</b> &nbsp; 1st Quartile: <b>{{_.round(ss.quantile(team.scale_cubes, .25), 3)}}</b> &nbsp; Median: <b>{{_.round(ss.quantile(team.scale_cubes, .5), 3)}}</b> &nbsp; 3rd Quartile: <b>{{_.round(ss.quantile(team.scale_cubes, .75), 3)}}</b> &nbsp; Min: <b>{{_.round(ss.min(team.scale_cubes, .25), 3)}}</b> &nbsp; Max: <b>{{_.round(ss.max(team.scale_cubes, .25), 3)}}</b>
                             </div>
-                            <div>Cubes Placed in Vault - Avg: <b>{{_.round(_.mean(team.vaultcubes), 3)}}</b> &nbsp; 1st Quartile: <b>{{_.round(ss.quantile(team.vaultcubes, .25), 3)}}</b> &nbsp; Median: <b>{{_.round(ss.quantile(team.vaultcubes, .5), 3)}}</b> &nbsp; 3rd Quartile: <b>{{_.round(ss.quantile(team.vaultcubes, .75), 3)}}</b> &nbsp; Min: <b>{{_.round(ss.min(team.vaultcubes, .25), 3)}}</b> &nbsp; Max: <b>{{_.round(ss.max(team.vaultcubes, .25), 3)}}</b>
+                            <div>Cubes Placed in Vault - Avg: <b>{{_.round(_.mean(team.vault_cubes), 3)}}</b> &nbsp; 1st Quartile: <b>{{_.round(ss.quantile(team.vault_cubes, .25), 3)}}</b> &nbsp; Median: <b>{{_.round(ss.quantile(team.vault_cubes, .5), 3)}}</b> &nbsp; 3rd Quartile: <b>{{_.round(ss.quantile(team.vault_cubes, .75), 3)}}</b> &nbsp; Min: <b>{{_.round(ss.min(team.vault_cubes, .25), 3)}}</b> &nbsp; Max: <b>{{_.round(ss.max(team.vault_cubes, .25), 3)}}</b>
                             </div>
-                            <div>Avg Cubes Failed on Switch: <b>{{team.switchcubesfailed}}</b></div>
-                            <div>Avg Cubes Failed on Scale: <b>{{team.scalecubesfailed}}</b></div>
+                            <div>Avg Cubes Failed on Switch: <b>{_.round(_.mean(team.switch_cubes_failed), 3)}</b></div>
+                            <div>Avg Cubes Failed on Scale: <b>{_.round(_.mean(team.scale_cubes_failed), 3)}</b></div>
                             <!--<div>Avg Gear Cycle Time: <b>{{team.cycletime}} seconds</b></div>-->
                         </div>
                     </div>
@@ -79,7 +79,7 @@
                     <div class="description">
                         <b class="big">Robot Info</b>
                         <div class="ui">
-                            <div>Drive Type: <b>{{team.drivetype}} wheels</b></div>
+                            <!--<div>Drive Type: <b>{{team.drivetype}} wheels</b></div> argh-->
                             <div>
                                 Clean Matches:
                                 <matches :d="team.foul"></matches>
@@ -90,16 +90,16 @@
                     <div class="description">
                         <b class="big">Auton</b>
                         <div class="ui">
-                            <div v-if="(team.autonswitch = " no ") && (team.autonscale = "no ") && (team.autonvault = "no ")">
+                            <div v-if="{_.round(_.mean(team.a_switch_cubes), 3)} < 1 && {_.round(_.mean(team.a_scale_cubes), 3)} < 1 && {_.round(_.mean(team.a_vault_cubes), 3)} < 1">
                                 <b>They don't place cubes in auton</b>
                             </div>
-                            <div v-if="(team.autonswitch = " yes ") && (team.autonscale = "no ") && (team.autonvault = "no ")">
+                            <div v-if="{_.round(_.mean(team.a_switch_cubes), 3)} && {_.round(_.mean(team.a_scale_cubes), 3)} < 1 && {_.round(_.mean(team.a_vault_cubes), 3)} < 1">
                                 <b>They place cubes on the switch in auton</b>
                             </div>
-                            <div v-if="(team.autonswitch = " no ") && (team.autonscale = "yes ") && (team.autonvault = "no ")">
+                            <div v-if="{_.round(_.mean(team.a_switch_cubes), 3)} < 1 && {_.round(_.mean(team.a_scale_cubes), 3)} > 0 && {_.round(_.mean(team.a_vault_cubes), 3)} < 1">
                                 <b>They place cubes on the scale in auton</b>
                             </div>
-                            <div v-if="(team.autonswitch = " no ") && (team.autonscale = "no ") && (team.autonvault = "yes ")">
+                            <div v-if="{_.round(_.mean(team.a_switch_cubes), 3)} < 1 && {_.round(_.mean(team.a_scale_cubes), 3)} < 1 && {_.round(_.mean(team.a_vault_cubes), 3)} > 0">
                                 <b>They place cubes in the vault in auton</b>
                             </div>
                             <!--<div v-else>
@@ -108,7 +108,7 @@
             </div>-->
                             <div>
                                 Moved/Crossed:
-                                <matches :d="team.autonmovement"></matches>
+                                <matches :d="team.a_movement"></matches>
                             </div>
                             <!--<div>Crossed:
             <matches :d="team.crossed"></matches>
@@ -118,25 +118,25 @@
             </div>-->
                             <div>
                                 Placed Cubes on Switch:
-                                <matches :d="team.autonswitch"></matches>
+                                <matches :d="team.a_switch_cubes"></matches>
                             </div>
                             <div>
                                 Placed Cubes on Scale:
-                                <matches :d="team.autonscale"></matches>
+                                <matches :d="team.a_scale_cubes"></matches>
                             </div>
                             <div>
                                 Placed Cubes in Vault:
-                                <matches :d="team.autonvault"></matches>
+                                <matches :d="team.a_vault_cubes"></matches>
                             </div>
                         </div>
                     </div>
                     <br>
                     <div class="description">
                         <b class="big">Telop</b>
-                        <div v-if="(team.scalecubesplaced == 0) && (team.scalecubesfailed == 0)">
+                        <div v-if="{_.round(_.mean(team.scale_cubes), 3)} < 1 {_.round(_.mean(team.scale_cubes_failed), 3)} < 1">
                             <b>They don't attempt to place cubes on the scale</b>
                         </div>
-                        <div v-if="(team.scalecubesplaced == 0) && (team.scalecubesfailed != 0)">
+                        <div v-if="{_.round(_.mean(team.a_vault_cubes), 3)} < 1 && {_.round(_.mean(team.scale_cubes_failed), 3)} > 0">
                             <b>They try to place cubes on the scale but haven't</b>
                         </div>
                         <!--<div v-else>
@@ -149,11 +149,11 @@
                         </div>
                         <!--<div>Gear Collection: <b>Ground: 45 (4 avg) | Station: 67 (5 avg)</b></div>-->
                         <!--<div>Avg Gear Cycle Time: <b>{{team.cycletime}} seconds</b></div>-->
-                        <div>Avg Cubes Placed on Switch: <b>{{_.round(_.mean(team.switchcubesplaced), 3)}}</b></div>
-                        <div>Avg Cubes Placed on Scale: <b>{{_.round(_.mean(team.scalecubesplaced), 3)}}</b></div>
-                        <div>Avg Cubes Placed in Vault: <b>{{_.round(_.mean(team.vaultcubes), 3)}}</b></div>
-                        <div>Avg Cubes Failed to be Placed on Switch: <b>{{team.switchcubesfailed}}</b></div>
-                        <div>Avg Cubes Failed to be Placed on Scale: <b>{{team.scalecubesfailed}}</b></div>
+                        <div>Avg Cubes Placed on Switch: <b>{{_.round(_.mean(team.switch_cubes), 3)}}</b></div>
+                        <div>Avg Cubes Placed on Scale: <b>{{_.round(_.mean(team.scale_cubes), 3)}}</b></div>
+                        <div>Avg Cubes Placed in Vault: <b>{{_.round(_.mean(team.vault_cubes), 3)}}</b></div>
+                        <div>Avg Cubes Failed to be Placed on Switch: <b>{_.round(_.mean(team.switch_cubes_failed), 3)}</b></div>
+                        <div>Avg Cubes Failed to be Placed on Scale: <b>{_.round(_.mean(team.scale_cubes_failed), 3)}</b></div>
                         <!--<div>Gear Stuck on Peg:
                 <matches :d="team.stuck"></matches>
                 </div>-->
@@ -161,7 +161,7 @@
                             Hanging:
                             <matches :d="team.hang"></matches>
                         </div>
-                        <div>Avg Time to Hang: <b>{{team.hangtime}} seconds</b></div>
+                        <div>Avg Time to Hang: <b>{{team.time_to_hang}} seconds</b></div>
                         <!--<div>Driver Quality: <b>73%</b></div>-->
                     </div>
                     <br>
