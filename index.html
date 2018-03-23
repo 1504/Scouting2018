@@ -68,7 +68,6 @@
                 </label>
                 <icon name="trash" class="text-danger" size="lg" @click="remove(i)" slot="footer"></icon>
             </cell>
-                
         </slideup>
         <navbar>
             <icon name="navicon" size="lg" @click="menu = true"></icon>
@@ -112,17 +111,17 @@
                 Auton switch cubes &nbsp;
                 <input-number :min="0" v-model="d.a_switch_cubes" :max="20" />
             </cell>
-             <cell>
+            <cell>
                 Auton scale cubes &nbsp;
-                <input-number :min="0" v-model="d.a_scale_cubes" :max="20"/>
+                <input-number :min="0" v-model="d.a_scale_cubes" :max="20" />
             </cell>
-             <cell>
+            <cell>
                 Auton vault cubes &nbsp;
-                <input-number :min="0" v-model="d.a_vault_cubes" :max="20"/>
+                <input-number :min="0" v-model="d.a_vault_cubes" :max="20" />
             </cell>
-           <cell>
+            <cell>
                 Auton placing quality (1-10) &nbsp;
-                <input-number :min="0" v-model="d.a_place_quality" :max="10"/>
+                <input-number :min="0" v-model="d.a_place_quality" :max="10" />
             </cell>
         </group>
         <group-title>Teleop</group-title>
@@ -135,36 +134,36 @@
                 </inline-selector>
             </cell>
             <cell>
-               Switch cubes &nbsp;
+                Switch cubes &nbsp;
                 <input-number :min="0" v-model="d.switch_cubes" :max="20" />
             </cell>
-             <cell>
-               Scale cubes &nbsp;
-                <input-number :min="0" v-model="d.scale_cubes" :max="20"/>
+            <cell>
+                Scale cubes &nbsp;
+                <input-number :min="0" v-model="d.scale_cubes" :max="20" />
             </cell>
             <cell>
-               Switch cubes failed &nbsp;
+                Switch cubes failed &nbsp;
                 <input-number :min="0" v-model="d.switch_cubes_failed" :max="20" />
             </cell>
-             <cell>
-               Scale cubes failed &nbsp;
-                <input-number :min="0" v-model="d.scale_cubes_failed" :max="20"/>
+            <cell>
+                Scale cubes failed &nbsp;
+                <input-number :min="0" v-model="d.scale_cubes_failed" :max="20" />
             </cell>
-             <cell>
+            <cell>
                 Cubes placed for vault &nbsp;
-                <input-number :min="0" v-model="d.vault_cubes" :max="20"/>
+                <input-number :min="0" v-model="d.vault_cubes" :max="20" />
             </cell>
             <cell>
                 <checkbox v-model="d.defensive">Defensive</checkbox>
             </cell>
-             <cell>
+            <cell>
                 Cubes on opponent switch &nbsp;
-                <input-number :min="0" v-model="d.def_cubes" :max="20"/>
+                <input-number :min="0" v-model="d.def_cubes" :max="20" />
             </cell>
-              <cell>
+            <cell>
                 Fouls &nbsp;
-                <input-number :min="0" v-model="d.foul_number" :max="20"/>
-              </cell>
+                <input-number :min="0" v-model="d.foul_number" :max="20" />
+            </cell>
             <cell>
                 <inline-selector v-model="d.foul_type" multiple>
                     Foul type: &nbsp;
@@ -190,17 +189,14 @@
             <cell>
                 <checkbox v-model="d.hanged_on_other">Hangs on other robot</checkbox>
             </cell>
-            </cell>
-              <cell>
-                Carries (#) robots &nbsp;
-                <input-number :min="0" v-model="d.carry_number" :max="20"/>
-              </cell>
             <cell>
+                Carries (#) robots &nbsp;
+                <input-number :min="0" v-model="d.carry_number" :max="20" />
+            </cell>
             <cell>
                 Number of other robots hanging &nbsp;
-                <input-number :min="0" v-model="d.endrobothangtotal" :max="2"/>
+                <input-number :min="0" v-model="d.endrobothangtotal" :max="2" />
             </cell>
-
         </group>
         <group-title>Humans</group-title>
         <group>
@@ -235,63 +231,63 @@
 <script src="app.js">
 </script>
 <script>
-    function createQR(data) {
-        var el = kjua({
-            render: 'canvas',
-            crisp: true,
-            // error correction level: 'L', 'M', 'Q' or 'H'
-            ecLevel: 'L',
-            // size in pixels
-            size: 650,
-            ratio: null,
-            text: data, //actual value
-            rounded: 100,
-        });
-        el.id = "qr"
-        el.style["max-width"] = "100%"
-        el.style["height"] = "auto"
-        el.style.display = "block"
-        el.style.margin = "0 auto"
-        var toReplace = document.getElementById('qr');
-        toReplace.parentNode.replaceChild(el, toReplace);
-        document.getElementById('qr').scrollIntoView();
-    }
+function createQR(data) {
+    var el = kjua({
+        render: 'canvas',
+        crisp: true,
+        // error correction level: 'L', 'M', 'Q' or 'H'
+        ecLevel: 'L',
+        // size in pixels
+        size: 650,
+        ratio: null,
+        text: data, //actual value
+        rounded: 100,
+    });
+    el.id = "qr"
+    el.style["max-width"] = "100%"
+    el.style["height"] = "auto"
+    el.style.display = "block"
+    el.style.margin = "0 auto"
+    var toReplace = document.getElementById('qr');
+    toReplace.parentNode.replaceChild(el, toReplace);
+    document.getElementById('qr').scrollIntoView();
+}
 
-    if ('addEventListener' in document) {
-        document.addEventListener('DOMContentLoaded', function () {
-            FastClick.attach(document.body);
-        }, false);
-    }
+if ('addEventListener' in document) {
+    document.addEventListener('DOMContentLoaded', function() {
+        FastClick.attach(document.body);
+    }, false);
+}
 </script>
 <script>
-    var lastScan = ""
+var lastScan = ""
 
-    function onQRCodeScanned(scannedText) {
-        console.log(scannedText)
-        if (lastScan != scannedText) {
-            lastScan = scannedText
-            app.decodeQR(lastScan)
-        }
-        if (scannedTextMemo) {
-            scannedTextMemo.value = scannedText;
-        }
+function onQRCodeScanned(scannedText) {
+    console.log(scannedText)
+    if (lastScan != scannedText) {
+        lastScan = scannedText
+        app.decodeQR(lastScan)
     }
+    if (scannedTextMemo) {
+        scannedTextMemo.value = scannedText;
+    }
+}
 
-    //this function will be called when JsQRScanner is ready to use
-    function JsQRScannerReady() {
-        //create a new scanner passing to it a callback function that will be invoked when
-        //the scanner succesfully scan a QR code
-        var jbScanner = new JsQRScanner(onQRCodeScanned);
-        //reduce the size of analyzed images to increase performance on mobile devices
-        jbScanner.setSnapImageMaxSize(300);
-        var scannerParentElement = document.getElementById("scanner");
-        scannerParentElement.style.display = "block"
-        scannerParentElement.style.margin = "0 auto"
-        if (scannerParentElement) {
-            //append the jbScanner to an existing DOM element
-            jbScanner.appendTo(scannerParentElement);
-        }
+//this function will be called when JsQRScanner is ready to use
+function JsQRScannerReady() {
+    //create a new scanner passing to it a callback function that will be invoked when
+    //the scanner succesfully scan a QR code
+    var jbScanner = new JsQRScanner(onQRCodeScanned);
+    //reduce the size of analyzed images to increase performance on mobile devices
+    jbScanner.setSnapImageMaxSize(300);
+    var scannerParentElement = document.getElementById("scanner");
+    scannerParentElement.style.display = "block"
+    scannerParentElement.style.margin = "0 auto"
+    if (scannerParentElement) {
+        //append the jbScanner to an existing DOM element
+        jbScanner.appendTo(scannerParentElement);
     }
+}
 </script>
 
 </html>
