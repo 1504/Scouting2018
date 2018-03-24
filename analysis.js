@@ -7,12 +7,11 @@ var app = new Vue({
         });
         this.$http.get('/api').then(function(response) {
             this.rawData = JSON.parse(response.body)
-            self.submit()
         });
         setInterval(this.update, 3000);
     },
     data: {
-        team: "1504",
+        team: "",
         defaults: {},
         rawData: {},
         data: [],
