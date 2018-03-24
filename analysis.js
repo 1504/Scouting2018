@@ -28,11 +28,15 @@ var app = new Vue({
             //console.log(raw)
             swal({ title: team, html: "<pre>" + JSON.stringify(raw) + "</pre>" })
         },
-        submit: function() {
-            //generate statistics, with actual comments because I am a good programmer.
+        getAllTeams: function(){
+            teams = _.map(_.uniqBy(this.rawData, 'team'), "team");
+            console.log(teams)
+        },
+        getTeam: function(number){
+             //generate statistics, with actual comments because I am a good programmer.
             //I also wont understand this without comments
             var team = {}
-            matches = _.filter(this.rawData, ["team", Number(this.team)]) //finding all the matches that match the team number
+            matches = _.filter(this.rawData, ["team", Number(number)]) //finding all the matches that match the team number
             matches = _.sortBy(_.uniqBy(matches, 'match'), "match"); //make sure only one match per robot, and sort it
             for (var i = matches.length - 1; i >= 0; i--) {
                 var obj = JSON.parse(JSON.stringify(this.defaults));
@@ -48,9 +52,15 @@ var app = new Vue({
                     }
                 }
             }
-            this.team = ""
+            return this.analyze(team)
+        },
+        submit: function() {
+           
+            
+            
             //at this point, we have a team object with all of the data about a team, ordered by match number
-            this.data.unshift(this.analyze(team))
+            this.data.unshift(this.getTeam(this.team))
+            this.team = ""
         },
         analyze: function(team){
             console.log(team)
