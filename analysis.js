@@ -64,6 +64,14 @@ var app = new Vue({
         },
         analyze: function(team){
             console.log(team)
+            hangArr = []
+            for (var i = 0; i < team.hang.length; i++) {
+                team.hang[i];
+            }
+            ss.mean(hangArr)
+
+            team.rankScore = ((ss.mean(team.a_scale_cubes).toFixed(2)*9)+(ss.mean(team.a_switch_cubes).toFixed(2)*7)+(ss.mean(team.scale_cubes).toFixed(2)*7)+(ss.mean(team.switch_cubes).toFixed(2)*5)+(ss.mean(team.def_cubes).toFixed(2)*2)+(ss.mean(team.vault_cubes).toFixed(2)*4)).toFixed(2);
+
             return team;
         },
     },

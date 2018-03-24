@@ -81,6 +81,7 @@
                     <hr> No Fouls: [<span v-for="(item, i) in team.foul_number" :class="{ g: item==0, r: item!=0 }">{{team.match[i]}}, </span>]
                     <br> Avg Fouls: {{s.mean(team.foul_number).toFixed(2)}}
                     <br> Driver Quality: {{s.mode(team.driver)}}
+                    <br> Ranking Score: {{team.rankScore}}
                 </div>
             </div>
         </div>
