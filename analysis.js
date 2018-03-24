@@ -15,6 +15,7 @@ var app = new Vue({
         defaults: {},
         rawData: {},
         data: [],
+        showRank: false,
         s: window.ss,
         _: _,
     },
@@ -27,10 +28,6 @@ var app = new Vue({
         openRaw: function(raw, team) {
             //console.log(raw)
             swal({ title: team, html: "<pre>" + JSON.stringify(raw) + "</pre>" })
-        },
-        getAllTeams: function(){
-            teams = _.map(_.uniqBy(this.rawData, 'team'), "team");
-            console.log(teams)
         },
         getTeam: function(number){
              //generate statistics, with actual comments because I am a good programmer.
@@ -54,10 +51,7 @@ var app = new Vue({
             }
             return this.analyze(team)
         },
-        submit: function() {
-           
-            
-            
+        submit: function() {   
             //at this point, we have a team object with all of the data about a team, ordered by match number
             this.data.unshift(this.getTeam(this.team))
             this.team = ""
@@ -73,6 +67,18 @@ var app = new Vue({
             team.rankScore = ((ss.mean(team.a_scale_cubes).toFixed(2)*9)+(ss.mean(team.a_switch_cubes).toFixed(2)*7)+(ss.mean(team.scale_cubes).toFixed(2)*7)+(ss.mean(team.switch_cubes).toFixed(2)*5)+(ss.mean(team.def_cubes).toFixed(2)*2)+(ss.mean(team.vault_cubes).toFixed(2)*4)).toFixed(2);
 
             return team;
+        },
+    },
+    computed: {
+        getAllTeams: function(){
+            teams = []
+            teamList = _.map(_.uniqBy(this.rawData, 'team'), "team");
+            teamList = teamList.filter(Boolean)
+            console.log(teamList)
+            for (var i = teamList.length - 1; i >= 0; i--) {
+                teams.push(this.getTeam(teamList[i]))
+            }
+            return _.sortBy(teams, function(o) { return -o.rankScore; })
         },
     },
     components: {

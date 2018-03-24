@@ -44,16 +44,32 @@
 <body class="mt0">
     <h4 class="m0 tc caps tracked bg-accent white pv1">Scouting Analysis</h4>
     <div id="app" class="c">
-        <div class="row card tc">
-            <div class="col"><a href="/">App</a></div>
-            <div class="col"><a href="/backup.html">Backup</a></div>
-            <div class="col"><a href="/download">Download</a></div>
-            <div class="col"><a href="#">Rankings</a></div>
+        <div class="row card">
+            <div class="ph2 inline"><a href="#analysis">Team Analysis</a></div>
+            <div class="ph2 inline"><a href="/">App</a></div>
+            <div class="ph2 inline"><a href="/backup.html">Backup</a></div>
+            <div class="ph2 inline"><a href="/download">Download</a></div>
+            <div class="ph2 inline"><a @click="showRank = !showRank">Rankings</a></div>
         </div>
-        <div class="ph2">
+        <table class="w-100" v-if="showRank">
+            <thead>
+                <tr>
+                    <th>Team</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="team in getAllTeams">
+                    <td><a @click="data.unshift(team)">{{team.team[0]}}</a></td>
+                    <td>{{team.rankScore}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="ph2" id="#analysis">
             <input type="text" class="card" placeholder="Team Number" v-model="team" @keyup.enter="submit">
             <button class="btn primary" @click="submit">Add</button>
         </div>
+        
         <div class="row" v-for="teams in _.chunk(data, 3)">
             <div class="4 col card" v-for="team in teams">
                 <h4 class="m0">{{s.mode(team.team)}}</h4>
