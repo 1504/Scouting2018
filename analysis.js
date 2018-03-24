@@ -57,7 +57,7 @@ var app = new Vue({
             this.team = ""
         },
         analyze: function(team){
-            console.log(team)
+            //console.log(team)
             hangArr = []
             for (var i = 0; i < team.hang.length; i++) {
                 team.hang[i];
@@ -74,9 +74,13 @@ var app = new Vue({
             teams = []
             teamList = _.map(_.uniqBy(this.rawData, 'team'), "team");
             teamList = teamList.filter(Boolean)
-            console.log(teamList)
+            //console.log(teamList)
             for (var i = teamList.length - 1; i >= 0; i--) {
                 teams.push(this.getTeam(teamList[i]))
+
+            }
+            for (var i = teams.length - 1; i >= 0; i--) {
+                if(teams[i].match.length < 2) teams.splice(i, 1);
             }
             return _.sortBy(teams, function(o) { return -o.rankScore; })
         },

@@ -54,12 +54,14 @@
         <table class="w-100" v-if="showRank">
             <thead>
                 <tr>
+                    <th>Number</th>
                     <th>Team</th>
                     <th>Score</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="team in getAllTeams">
+                <tr v-for="(team, i) in getAllTeams">
+                    <td>{{i+1}}</td>
                     <td><a @click="data.unshift(team)">{{team.team[0]}}</a></td>
                     <td>{{team.rankScore}}</td>
                 </tr>
